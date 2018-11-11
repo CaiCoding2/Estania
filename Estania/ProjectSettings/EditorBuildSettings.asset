@@ -6,6 +6,48 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/Menu.unity
+    guid: 13cac582e579b1e409f64a39fdee420b
+  - enabled: 1
+    path: Assets/Scenes/UnUsed/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/UnUsed/BattleSystem.unity
+    guid: d791751d39a27584f979fe03066bbcca
+  - enabled: 1
+    path: Assets/Scenes/BattleField/MenBattleScene.unity
+    guid: 5d35cc798a833654181edf8709783a42
+  - enabled: 1
+    path: Assets/Scenes/Map/RodrikPreContender.unity
+    guid: 14505251cd7489d43b2f3b7e38e469c8
+  - enabled: 1
+    path: Assets/Scenes/_CutScene/TownScene.unity
+    guid: 369416a7ebe0cae4d8d1dc32406ce9c8
+  - enabled: 1
+    path: Assets/Scenes/_CutScene/FieldScene.unity
+    guid: dd05f4d494f1e8843856beb169009297
+  - enabled: 1
+    path: Assets/Scenes/BattleField/FieldLavosSpawn.unity
+    guid: 1821cc30c40179947abca8d0104c097e
+  - enabled: 1
+    path: Assets/Scenes/BattleField/FieldLavos.unity
+    guid: b277594531259f24c9ce88013c95fc9c
+  - enabled: 1
+    path: Assets/Scenes/_CutScene/Ending Cutscene.unity
+    guid: 6a6a9042d604aa24a8a1dc8ba0cd3627
+  - enabled: 1
+    path: Assets/Scenes/_CutScene/Finale.unity
+    guid: deb9266f6683c84459032796e96dd4a3
+  - enabled: 1
+    path: Assets/Scenes/_CutScene/Temple Cutscene.unity
+    guid: 9c19e7a03acc0a94ca445c348f07c883
+  - enabled: 1
+    path: Assets/Scenes/Map/AfterSeerField.unity
+    guid: 5ead61a9830dd9e419252aa740a49be9
+  - enabled: 1
+    path: Assets/Scenes/_CutScene/Sleeping Hart.unity
+    guid: bc90dc9f733a1024cba241be88d41587
+  - enabled: 1
+    path: Assets/Scenes/Developing Scene/ExitScreen.unity
+    guid: e3e9518f3be8b214d9453316aaf0d08f
   m_configObjects: {}

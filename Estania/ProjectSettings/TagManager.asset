@@ -3,7 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - region1
+  - Enemy
+  - HurtEnemy
+  - hurtenemy
+  - Hurtenemy
+  - hurtEnemy
+  - DeadHero
+  - DeadEnemy
+  - LeaveArea
+  - Boss
+  - Hurt Enemy
+  - EnemyCombat
+  - Hero
   layers:
   - Default
   - TransparentFX
@@ -40,4 +53,49 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 2871855109
+    locked: 0
+  - name: Prebackground
+    uniqueID: 3842218883
+    locked: 0
+  - name: Background
+    uniqueID: 3305252159
+    locked: 0
+  - name: Playerbackground
+    uniqueID: 3264069547
+    locked: 0
+  - name: EnemyCombat
+    uniqueID: 3796716545
+    locked: 0
+  - name: PlayerCombat
+    uniqueID: 2267546967
+    locked: 0
+  - name: Player
+    uniqueID: 1780501045
+    locked: 0
+  - name: Playerforeground
+    uniqueID: 2194287251
+    locked: 0
+  - name: Foreground
+    uniqueID: 1767345373
+    locked: 0
+  - name: Barrels
+    uniqueID: 1449016095
+    locked: 0
+  - name: Crowd Front
+    uniqueID: 3216018815
+    locked: 0
+  - name: Crowd Back
+    uniqueID: 2148046033
+    locked: 0
+  - name: Mist
+    uniqueID: 3371995783
+    locked: 0
+  - name: Mist2
+    uniqueID: 3867237819
+    locked: 0
+  - name: World Objects
+    uniqueID: 260011815
     locked: 0

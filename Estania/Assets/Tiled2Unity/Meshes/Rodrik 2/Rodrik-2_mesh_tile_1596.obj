@@ -1,0 +1,24 @@
+﻿# Tiled2Unity generated file. Do not modify by hand.
+# Wavefront file for 'Rodrik-2_mesh_tile_1596.obj'
+
+# Vertices (Count = 4)
+v 0 -16 0
+v -16 -16 0
+v -16 0 0
+v 0 0 0
+
+# Texture cooridinates (Count = 4)
+vt 0 0.5555556
+vt 0.1777778 0.5555556
+vt 0.1777778 0.7037037
+vt 0 0.7037037
+
+# Normal
+vn 0 0 -1
+
+# Mesh description
+g Rodrik-2_mesh_tile_1596
+
+# Faces
+f 1/1/1 2/2/1 3/3/1 4/4/1
+

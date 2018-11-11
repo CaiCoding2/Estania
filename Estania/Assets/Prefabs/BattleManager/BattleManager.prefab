@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1678375433341250}
+  m_IsPrefabAsset: 1
+--- !u!1 &1678375433341250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4736032037272076}
+  - component: {fileID: 114612091564750422}
+  m_Layer: 0
+  m_Name: BattleManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4736032037272076
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1678375433341250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1085.4076, y: 101.12664, z: 3.6636353}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114612091564750422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1678375433341250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34e9b947c23506940afb13c76c884628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  battleStates: 0
+  PerformList: []
+  HeroesInBattle: []
+  EnemiesInBattle: []
+  ESM: {fileID: 0}
+  physicalAtk: 0
+  magicalAtk: 0
+  deathWaitOver: 0
+  attackButtonsCleared: 0
+  attackButtonsCreated: 0
+  magicSelect: 0
+  deathWaitOverDefeat: 0
+  actionBtnsIndex: 0
+  previousActionBtnsIndex: 0
+  EnemyBtnsIndex: 0
+  previousEnemyBtnsIndex: 0
+  magicBtnsIndex: 0
+  previousMagicBtnsIndex: 0
+  enemySelectCounter: 0
+  magicSelectCounter: 0
+  Heroinput: 0
+  HeroesToManage: []
+  HeroChoice:
+    Attacker: 
+    Type: 
+    AttackersGameObject: {fileID: 0}
+    AttackersTarget: {fileID: 0}
+    chooseanAttack: {fileID: 0}
+  enemyButton: {fileID: 1590228809146630, guid: 75af00e8b1753544d855bcf506762267,
+    type: 2}
+  Spacer: {fileID: 0}
+  dmgText: {fileID: 1335510964528006, guid: fe135ce8ca134f747b7ae2888d0a3edf, type: 2}
+  AttackPanel: {fileID: 0}
+  EnemySelectPanel: {fileID: 0}
+  MagicPanel: {fileID: 0}
+  ComboPanel: {fileID: 0}
+  infoPanel: {fileID: 0}
+  BattleCanvas: {fileID: 0}
+  actionSpacer: {fileID: 0}
+  magicSpacer: {fileID: 0}
+  actionButton: {fileID: 1395943673621160, guid: 52c1ba0c922ba694086ba3ef2eecfcd8,
+    type: 2}
+  magicButton: {fileID: 1308684548105534, guid: 1659344f411ce1d45b2a81d7e9e1bfd6,
+    type: 2}
+  infoText: {fileID: 0}
+  spawnPoints:
+  - {fileID: 4694728581840294, guid: 72e51611b5a704b40bf2afa43818a84d, type: 2}

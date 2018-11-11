@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1911964524309336}
+  m_IsPrefabAsset: 1
+--- !u!1 &1911964524309336
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4548533225403064}
+  - component: {fileID: 114325135738115798}
+  - component: {fileID: 114586655648958212}
+  - component: {fileID: 114047918118133322}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4548533225403064
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911964524309336}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114047918118133322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911964524309336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cb2e76d7e2ba4cea8eff5ff2530e692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundsGroups:
+  - groupID: Click
+    group:
+    - {fileID: 8300000, guid: 95e6408c61f63e748ac0a0052b9a1033, type: 3}
+  - groupID: Select
+    group:
+    - {fileID: 8300000, guid: 82c01a0e9c091cd48880d9f3c49c07b3, type: 3}
+  - groupID: FootStep
+    group:
+    - {fileID: 8300000, guid: 277e3a470804e32478f51e63e62aff4a, type: 3}
+  - groupID: DoorOpen
+    group:
+    - {fileID: 8300000, guid: a8c1681eb878aa646bd4faa3c856ed01, type: 3}
+  - groupID: DoorClose
+    group:
+    - {fileID: 8300000, guid: c3849efcefce0e149a22a0767a1d6166, type: 3}
+  - groupID: FootStepDelay
+    group:
+    - {fileID: 8300000, guid: e92d06bb5e9a5d8489f25328184e65fd, type: 3}
+  - groupID: FootStepLong
+    group:
+    - {fileID: 8300000, guid: 183dafced656ba84e9edc914aca4246c, type: 3}
+  - groupID: ghostbreath
+    group:
+    - {fileID: 8300000, guid: 4336219a3f1f2bb4192e8b71e6797e2c, type: 3}
+  - groupID: StepChain
+    group:
+    - {fileID: 8300000, guid: 7f423fb498302b24eac822dddc80e52f, type: 3}
+  - groupID: Lock
+    group:
+    - {fileID: 8300000, guid: 5d56db32c409b0045850bc75b7c10176, type: 3}
+  - groupID: punch
+    group:
+    - {fileID: 8300000, guid: 00ae6d81e6090404180b47141c807444, type: 3}
+  - groupID: punch1
+    group:
+    - {fileID: 8300000, guid: ccdf1862115399d4eb2b6b44864a3039, type: 3}
+  - groupID: punch2
+    group:
+    - {fileID: 8300000, guid: bbc9a361fb5ca904290950481e2611d0, type: 3}
+  - groupID: slash1
+    group:
+    - {fileID: 8300000, guid: a46c6c86953ae8e40aa87c4036e78a39, type: 3}
+  - groupID: slash
+    group:
+    - {fileID: 8300000, guid: 728c7a7c50793074a98c7b85f0874131, type: 3}
+  - groupID: slash3
+    group:
+    - {fileID: 8300000, guid: 1c646c98379cf7b4a9a09289b44124e9, type: 3}
+  - groupID: Backstab
+    group:
+    - {fileID: 8300000, guid: 938d2ec567cecaa4e92a53850cf24356, type: 3}
+  - groupID: FlameJavelin1
+    group:
+    - {fileID: 8300000, guid: 675a89d50a39e2f469e70ea19484b6a1, type: 3}
+  - groupID: FlameJavelin2
+    group:
+    - {fileID: 8300000, guid: 2c921fdfca9a2514895812a8f5a40b0b, type: 3}
+  - groupID: Dead
+    group:
+    - {fileID: 8300000, guid: 76b7db3022f4644458ff3bca3bd88dae, type: 3}
+  - groupID: enchant
+    group:
+    - {fileID: 8300000, guid: 2b1cecc3b7677bf4a94f75112c734555, type: 3}
+  - groupID: Fire
+    group:
+    - {fileID: 8300000, guid: af5994b2a5c212f43a8d5cc3453d1486, type: 3}
+  - groupID: spell1
+    group:
+    - {fileID: 8300000, guid: 0c70a93888a90b4408663ceb87db56c4, type: 3}
+--- !u!114 &114325135738115798
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911964524309336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aa78c03dfbf04b21b198033617c7641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114586655648958212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1911964524309336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad1e95271ceb4692ac7545232cffd50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  menuTheme: {fileID: 8300000, guid: 7ec837496ce2b964da30d00b5fe704b3, type: 3}
+  TempleTheme: {fileID: 8300000, guid: f7af2e64bf3cf2f4eb1091332cf226a8, type: 3}
+  TownTheme: {fileID: 8300000, guid: 5ca1741f2eae74a4993763b0014a4c0a, type: 3}
+  SleepTheme: {fileID: 8300000, guid: 02f4cd493c7024e4f9b5f82f48933cb9, type: 3}
+  FieldTheme: {fileID: 8300000, guid: 7f393e6723d97df40b71ca163060e220, type: 3}
+  EndingTheme: {fileID: 8300000, guid: f44f76310c7068d4c9dac7905d67ae9a, type: 3}
+  FinaleTheme: {fileID: 8300000, guid: dcda71f3e3df59646b19b56982861be7, type: 3}
+  NormalBattle: {fileID: 8300000, guid: 6229abf6bfed6084cae448a080c048c3, type: 3}
+  BossBattle: {fileID: 8300000, guid: eac898ab5b3a3fa4090eda81eb238dde, type: 3}
+  MainTown: {fileID: 8300000, guid: 39f3ed7b5a97b214da21d7a2faf23eb8, type: 3}
+  MistField: {fileID: 8300000, guid: e62f3b690bb2dd645b42dc1f725a1224, type: 3}
