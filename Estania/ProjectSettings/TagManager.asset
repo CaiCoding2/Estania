@@ -17,6 +17,7 @@ TagManager:
   - Hurt Enemy
   - EnemyCombat
   - Hero
+  - flower
   layers:
   - Default
   - TransparentFX

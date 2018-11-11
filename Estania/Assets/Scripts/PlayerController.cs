@@ -12,7 +12,13 @@ public class PlayerController : MonoBehaviour {
     private bool playerMoving;
     public Vector2 lastMove;
 
-	Vector3 curPos, lastPos; 
+	Vector3 curPos, lastPos;
+
+    //effect
+    public GameObject dust;
+    public Transform feet;
+    public GameObject scent;
+    private bool scentTime = true;
 
     private static bool playerExists;
 
@@ -136,8 +142,19 @@ void onTriggerEnter(Collider other)
 		{
 			GameManager.instance.canGetEncountered = true;
 		}
+        if (other.gameObject.tag == "flower")
+        {
+            if (scentTime)
+            {
+                Instantiate(scent, other.transform.position, Quaternion.identity);
+                scentTime = false;
+            }
 
-	}
+        }
+
+
+
+    }
 	/*void onTriggerStay(Collider other)
 	{
 		Debug.Log("colliding.");
@@ -153,14 +170,46 @@ void onTriggerEnter(Collider other)
 		{
 			GameManager.instance.canGetEncountered = false;
 		}
-	}
+       
+    }
+    void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "flower")
+        {
+            if (scentTime)
+            {
+                AudioManager.instance.PlaySound("leave", transform.position, 1);
+                Instantiate(scent, other.transform.position, Quaternion.identity);
+                scentTime = false;
+            }
+        }
+    }
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "flower")
+        {
+            scentTime = true;
+        }
+    }
+    
 
     void walking()
     {
         if (Input.GetAxisRaw("Horizontal") != 0f || Input.GetAxisRaw("Vertical") != 0f)
         {
-            AudioManager.instance.PlaySound("FootStep", transform.position, 1);
+            if(Input.GetAxisRaw("Vertical") < 0)
+            {
+                AudioManager.instance.PlaySound("FootStep", transform.position, 1);
+            }
+            else
+            {
+                Instantiate(dust, feet.position, Quaternion.identity);
+                AudioManager.instance.PlaySound("FootStep", transform.position, 1);
+
+            }
+            
         }
 
     }
+  
 }
