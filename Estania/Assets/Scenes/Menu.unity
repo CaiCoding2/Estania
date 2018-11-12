@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 136820119}
   - component: {fileID: 136820121}
   - component: {fileID: 136820120}
+  - component: {fileID: 136820122}
   m_Layer: 5
   m_Name: Credits
   m_TagString: Untagged
@@ -365,7 +366,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: -1.27}
+  m_AnchoredPosition: {x: 1.29, y: -11.2}
   m_SizeDelta: {x: 1080.891, y: 783.131}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &136820120
@@ -395,13 +396,17 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 137
-    m_Alignment: 1
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Credit
+  m_Text: "CREDIT\n\nTEAM MEMBER\nVance Monet\r\nRongJie Cai\r\nYeh-Wern Chiam\r\nDaria
+    Martin\r\nKusuma Nimushakavi\r\n\r\n\r\nTownsmen and Seer\r\nchronotrigger\r\n\r\nLavos\r\nBreath
+    of Fire\r\n\r\n\r\nSPRITE ASSET\nThe Sprite Resource\r\nOpenGameArt\r\n\r\nSOUND
+    ASSET\nOpenGameArt\r\nfreesound\r\n\r\nTESTER\nVance Monet\r\nRongJie Cai\r\nYeh-Wern
+    Chiam\r\nDaria Martin\r\nKusuma Nimushakavi\r\n"
 --- !u!222 &136820121
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -410,6 +415,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 136820118}
   m_CullTransparentMesh: 0
+--- !u!114 &136820122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 136820118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c56c564cd773446a83f6a5e7d28c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 0.5
 --- !u!1 &198137026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,7 +1192,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 34
   m_Sprite: {fileID: 21300000, guid: b8be5b7fe9c393a44bb84fa45e676e0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2290,7 +2307,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 6a21523b23f9b0644a5150575888cdfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2680,6 +2697,81 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1568429655}
   m_CullTransparentMesh: 0
+--- !u!1 &1590968658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1590968659}
+  - component: {fileID: 1590968660}
+  m_Layer: 5
+  m_Name: Mask
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1590968659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1590968658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.9059, y: -0.30829, z: 0}
+  m_LocalScale: {x: 1.973513, y: 1.6703291, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2077642826}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &1590968660
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1590968658}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 21300000, guid: aee97b9274abbc04fae010ad1696ef62, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 9, y: 5.98}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
 --- !u!1 &1668564025
 GameObject:
   m_ObjectHideFlags: 0
@@ -2989,7 +3081,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: -3.56}
+  m_AnchoredPosition: {x: 6.92, y: -4.21}
   m_SizeDelta: {x: 330.1, y: 65.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1878236719
@@ -3506,8 +3598,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0010375977}
-  m_SizeDelta: {x: 0, y: 1.25}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1996373644
 MonoBehaviour:
@@ -3802,6 +3894,7 @@ Transform:
   - {fileID: 136820119}
   - {fileID: 1878236718}
   - {fileID: 616324654}
+  - {fileID: 1590968659}
   m_Father: {fileID: 1090606610}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
