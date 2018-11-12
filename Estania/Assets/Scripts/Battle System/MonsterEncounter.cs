@@ -8,6 +8,7 @@ public class MonsterEncounter : MonoBehaviour {
 		if (other.gameObject.name == "Player")
 		{
 			Debug.Log("Hi");
+            //AudioManager.instance.PlaySound("Intro", transform.position, 1);
 			GameManager.instance.gotAttacked = true;
 			GameManager.instance.spawnedAttacked = true;
 		}

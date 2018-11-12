@@ -2431,6 +2431,11 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 198310655785658804, guid: 16b36106e55eaa84883c42e84916aac0,
+        type: 2}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 16b36106e55eaa84883c42e84916aac0, type: 2}
   m_IsPrefabAsset: 0

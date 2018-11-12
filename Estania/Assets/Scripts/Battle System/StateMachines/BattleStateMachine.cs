@@ -154,8 +154,8 @@ public class BattleStateMachine : MonoBehaviour
 		}
 		if ((deathWaitOver == true) && Input.GetKeyDown(KeyCode.A))
 			{
-            SceneManager.LoadScene("ExitScreen");
-            //GameManager.instance.loadSceneAfterBattle();
+            //SceneManager.LoadScene("ExitScreen");
+            GameManager.instance.loadSceneAfterBattle();
             GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
 			GameManager.instance.enemiesToBattle.Clear();}
 

@@ -30,8 +30,8 @@ public class HeroStateMachine : MonoBehaviour
 	//AudioSource audioData;
 	//AudioSource audioData2;
 
-	public GameObject flameJavelinAudio;
-	public GameObject backStabAudio;
+	///public GameObject flameJavelinAudio;
+	//public GameObject backStabAudio;
 	public enemyencounterspawner EES;
 	public bool isDeathBlow;
 	public List<GameObject> dmgBtns = new List<GameObject>();

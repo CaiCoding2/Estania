@@ -96,7 +96,7 @@ MonoBehaviour:
   - groupID: slash1
     group:
     - {fileID: 8300000, guid: a46c6c86953ae8e40aa87c4036e78a39, type: 3}
-  - groupID: slash
+  - groupID: slash2
     group:
     - {fileID: 8300000, guid: 728c7a7c50793074a98c7b85f0874131, type: 3}
   - groupID: slash3
@@ -120,12 +120,18 @@ MonoBehaviour:
   - groupID: Fire
     group:
     - {fileID: 8300000, guid: af5994b2a5c212f43a8d5cc3453d1486, type: 3}
-  - groupID: spell1
+  - groupID: Spell1
     group:
     - {fileID: 8300000, guid: 0c70a93888a90b4408663ceb87db56c4, type: 3}
   - groupID: leave
     group:
     - {fileID: 8300000, guid: 8a078eedd8edf6f418647f6d06010070, type: 3}
+  - groupID: Intro
+    group:
+    - {fileID: 8300000, guid: f77152e6b472210419d0fa8964be822a, type: 3}
+  - groupID: MonsterTransition
+    group:
+    - {fileID: 8300000, guid: bdf4363987903ce488eada6cbf15d91c, type: 3}
 --- !u!114 &114325135738115798
 MonoBehaviour:
   m_ObjectHideFlags: 1
