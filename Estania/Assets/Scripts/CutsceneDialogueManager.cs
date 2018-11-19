@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CutsceneDialogueManager : MonoBehaviour {
-    
     public GameObject dBox;
     public Text dText;
     public Text dSpeaker;
@@ -33,7 +32,7 @@ public class CutsceneDialogueManager : MonoBehaviour {
         }
         
 
-        if (dialogActive && Input.GetKeyDown(KeyCode.A))
+        if (dialogActive && Input.GetKeyDown(KeyCode.A)  && !InGame.GameIsPaused)
         {
             currentLine++;
         }

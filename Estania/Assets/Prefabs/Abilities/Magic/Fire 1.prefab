@@ -40,7 +40,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackName: Fire 1
   attackDescription: Lights enemy ablaze 10 MP
-  attackDamage: 20
+  attackDamage: 35
   attackCost: 10
 --- !u!224 &224349380434046194
 RectTransform:

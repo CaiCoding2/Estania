@@ -22,6 +22,7 @@ public class MusicManager : MonoBehaviour
     //Map;
     public AudioClip MainTown;
     public AudioClip MistField;
+    public AudioClip Death;
    
 
 
@@ -98,6 +99,10 @@ public class MusicManager : MonoBehaviour
         else if (sceneName == "AfterSeerField")
         {
             clipToPlay = MistField;
+        }
+        else if (sceneName == "ExitScreen")
+        {
+            clipToPlay = Death;
         }
 
         if (clipToPlay != null)

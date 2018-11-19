@@ -11,11 +11,13 @@ public class enemyencounterspawner : MonoBehaviour {
 	public GameObject enemyToBeSpawned;
 	public static enemyencounterspawner beastspawner;
 	public int counter;
+	public int ap;
 		
 	GameObject spawnedEnemy;
 	// Use this for initialization
 	void Awake()
-	{ }
+	
+	{ ap = 5; }
 
 	void Start()
 	{

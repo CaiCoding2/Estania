@@ -104,13 +104,13 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 1c646c98379cf7b4a9a09289b44124e9, type: 3}
   - groupID: Backstab
     group:
-    - {fileID: 8300000, guid: 938d2ec567cecaa4e92a53850cf24356, type: 3}
-  - groupID: FlameJavelin1
+    - {fileID: 8300000, guid: 5bd04196e0f56d344b7d5df77644cb29, type: 3}
+  - groupID: FlameJavelin
     group:
-    - {fileID: 8300000, guid: 675a89d50a39e2f469e70ea19484b6a1, type: 3}
-  - groupID: FlameJavelin2
+    - {fileID: 8300000, guid: 7055d5b8cdd3d6144a93092373cf26ac, type: 3}
+  - groupID: heal
     group:
-    - {fileID: 8300000, guid: 2c921fdfca9a2514895812a8f5a40b0b, type: 3}
+    - {fileID: 8300000, guid: ce531eb982453024886dfe6c8931103e, type: 3}
   - groupID: Dead
     group:
     - {fileID: 8300000, guid: 76b7db3022f4644458ff3bca3bd88dae, type: 3}
@@ -132,6 +132,18 @@ MonoBehaviour:
   - groupID: MonsterTransition
     group:
     - {fileID: 8300000, guid: bdf4363987903ce488eada6cbf15d91c, type: 3}
+  - groupID: MagicMissile
+    group:
+    - {fileID: 8300000, guid: 3b4449f43a830cb469d3b405b6993ab6, type: 3}
+  - groupID: Cure
+    group:
+    - {fileID: 8300000, guid: 40cb81b709a8c6d4ca661346208d5117, type: 3}
+  - groupID: PhotonCharge
+    group:
+    - {fileID: 8300000, guid: 17fb654cf925bcb44a70089ce62097aa, type: 3}
+  - groupID: magicalEnergy
+    group:
+    - {fileID: 8300000, guid: 2d77011ab63181a43963acc106d0b229, type: 3}
 --- !u!114 &114325135738115798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -155,13 +167,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuTheme: {fileID: 8300000, guid: 7ec837496ce2b964da30d00b5fe704b3, type: 3}
-  TempleTheme: {fileID: 8300000, guid: f7af2e64bf3cf2f4eb1091332cf226a8, type: 3}
-  TownTheme: {fileID: 8300000, guid: 5ca1741f2eae74a4993763b0014a4c0a, type: 3}
-  SleepTheme: {fileID: 8300000, guid: 02f4cd493c7024e4f9b5f82f48933cb9, type: 3}
-  FieldTheme: {fileID: 8300000, guid: 7f393e6723d97df40b71ca163060e220, type: 3}
-  EndingTheme: {fileID: 8300000, guid: f44f76310c7068d4c9dac7905d67ae9a, type: 3}
-  FinaleTheme: {fileID: 8300000, guid: dcda71f3e3df59646b19b56982861be7, type: 3}
+  TempleTheme: {fileID: 8300000, guid: 504b1ad2b6c4b2444b99eae2a88a5712, type: 3}
+  TownTheme: {fileID: 8300000, guid: f64ecaa1941cdb74689df757bbe2fa95, type: 3}
+  SleepTheme: {fileID: 8300000, guid: 9bf519656e90a4448a78446a776fd0fd, type: 3}
+  FieldTheme: {fileID: 8300000, guid: 5e88833c2a919f643a1fc647852fbbbd, type: 3}
+  EndingTheme: {fileID: 8300000, guid: 0e9d1af8dcddcbf47bad521e16db5caa, type: 3}
+  FinaleTheme: {fileID: 8300000, guid: 5cf8fb415d2710044a9585f0167557bf, type: 3}
   NormalBattle: {fileID: 8300000, guid: 6229abf6bfed6084cae448a080c048c3, type: 3}
   BossBattle: {fileID: 8300000, guid: eac898ab5b3a3fa4090eda81eb238dde, type: 3}
   MainTown: {fileID: 8300000, guid: 39f3ed7b5a97b214da21d7a2faf23eb8, type: 3}
   MistField: {fileID: 8300000, guid: e62f3b690bb2dd645b42dc1f725a1224, type: 3}
+  Death: {fileID: 8300000, guid: cde19d8dadb8f554b8382a4e8bb4306b, type: 3}

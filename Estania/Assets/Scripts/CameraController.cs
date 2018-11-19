@@ -23,14 +23,14 @@ public class CameraController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		Debug.Log("AWAKE!");
+		//Debug.Log("AWAKE!");
 		m_Scene = SceneManager.GetActiveScene();
 		sceneName = m_Scene.name;
-		Debug.Log(sceneName);
+		//Debug.Log(sceneName);
 		if (sceneName == "MenBattleScene")
 		{
 			inbattle = true;
-			Debug.Log("inbattle");
+			//Debug.Log("inbattle");
 		}
 		
 		GMan = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -57,13 +57,13 @@ public class CameraController : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update() {
+	void LateUpdate() {
 
 		if (followTarget == null)
 		{
 			followTarget = GameObject.Find("Player");
 		}
-		Debug.Log("Need player!");
+		//Debug.Log("Need player!");
 		if (GameManager.instance.instantiated == true && GameObject.Find("Player") != null)
 
 		{
@@ -83,8 +83,10 @@ public class CameraController : MonoBehaviour {
 				transform.position = new Vector3(clampedX, clampedY, transform.position.z);
 			}
 		}
-}
-		public void SetBounds(BoxCollider2D newBounds)
+
+    }
+  
+    public void SetBounds(BoxCollider2D newBounds)
 		{
 		boundBox = newBounds;
 		minPosition = boundBox.bounds.min;

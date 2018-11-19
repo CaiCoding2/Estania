@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyStateMachine : MonoBehaviour {
 
+	public LightningAnim LA;
 	public Animator playerAnimator;
 	private GameManager GMan;
 	public GameObject GMana;
@@ -53,6 +54,7 @@ public class EnemyStateMachine : MonoBehaviour {
 	void Start()
 	{
 		EES = GameObject.Find("BeastSpawner").GetComponent<enemyencounterspawner>();
+		LA = GameObject.Find("lightning true 1").GetComponent<LightningAnim>();
 		GMana = GameObject.Find("GameManager");
 		
 		GMan = GMana.GetComponent<GameManager>();
@@ -85,7 +87,8 @@ public class EnemyStateMachine : MonoBehaviour {
 				break;
 
 			case (TurnState.CHOOSEACTION):
-				ChooseAction();
+                Selector.SetActive(true);
+                ChooseAction();
 				currentState = TurnState.WAITING;
 				break;
 
@@ -94,7 +97,8 @@ public class EnemyStateMachine : MonoBehaviour {
 				break;
 
 			case (TurnState.ACTION):
-				StartCoroutine(TimeForAction());
+                Selector.SetActive(false);
+                StartCoroutine(TimeForAction());
 				break;
 
 			case (TurnState.DEAD):
@@ -159,6 +163,7 @@ public class EnemyStateMachine : MonoBehaviour {
 
 	void ChooseAction()//populate turn with actions that the enemy is going to choose automatically
 	{
+        
 		HandleTurns myAttack = new HandleTurns(); //new instance of HandleTurns is what we populate chooseattack with. We can send any information in handleturns here through myattack
 		myAttack.Attacker = enemy.theName; //storing the enemy's name into myattack
 		myAttack.Type = "Enemy";
@@ -202,7 +207,8 @@ public class EnemyStateMachine : MonoBehaviour {
 	}
 
 	private IEnumerator TimeForAction()
-	{if (EES.boss)
+	{ HSM.battleAnim = true;
+		if (EES.boss)
 			num = 1;
 		//num = 1;
 		if (num == 1)
@@ -232,6 +238,7 @@ public class EnemyStateMachine : MonoBehaviour {
 				while (MoveTowardsEnemy(magicEnd))
 				{
 					playerAnimator.Play("Beast_Moving");
+                  
 					//playerAnimator.Play("stickrunleft");
 					//running = true;
 					yield return null;
@@ -250,18 +257,18 @@ public class EnemyStateMachine : MonoBehaviour {
 				{
 					if (ac.animationClips[i].name == "Beast_CastSpell")
 					{
-
-						//battleAnim = true;
-						yield return new WaitForSeconds(ac.animationClips[i].length);
+                        AudioManager.instance.PlaySound("enchant", transform.position, 1);
+                        //battleAnim = true;
+                        yield return new WaitForSeconds(ac.animationClips[i].length);
 					}
 				}
 				else
 				{
 					if (ac.animationClips[i].name == "Beast2_CastSpell")
 					{
-
-						//battleAnim = true;
-						yield return new WaitForSeconds(ac.animationClips[i].length);
+                        AudioManager.instance.PlaySound("enchant", transform.position, 1);
+                        //battleAnim = true;
+                        yield return new WaitForSeconds(ac.animationClips[i].length);
 
 
 					}
@@ -274,23 +281,23 @@ public class EnemyStateMachine : MonoBehaviour {
 				if (!EES.boss)
 				{ if (ac.animationClips[i].name == "Beast_CastSpell")
 					{
-
-						//battleAnim = true;
-						yield return new WaitForSeconds(ac.animationClips[i].length);
+                        AudioManager.instance.PlaySound("enchant", transform.position, 1);
+                        //battleAnim = true;
+                        yield return new WaitForSeconds(ac.animationClips[i].length);
 					}
 				}
 				else
 				{ if (ac.animationClips[i].name == "Beast2_CastSpell")
 					{
-
-						//battleAnim = true;
-						yield return new WaitForSeconds(ac.animationClips[i].length);
+                        AudioManager.instance.PlaySound("enchant", transform.position, 1);
+                        //battleAnim = true;
+                        yield return new WaitForSeconds(ac.animationClips[i].length);
 
 
 					}
 				}
 			}
-			DoDamage();
+		//	DoDamage();
 
 
 			//BSM.battleStates = BattleStateMachine.PerformAction.WAIT;
@@ -308,10 +315,34 @@ public class EnemyStateMachine : MonoBehaviour {
 					yield return null;
 				}
 			}
+			if (EES.boss)
+				playerAnimator.Play("Beast2_Idle");
+			else
+				playerAnimator.Play("Beast_Idle");
+
+			//magicAnim = true;
+			Debug.Log("AT MAGICAL ATTACK");
+
+                AudioManager.instance.PlaySound("magicalEnergy", transform.position, 1);
+				StartCoroutine(LA.lightningAnimation());
+				
+
+				/*playerAnimator.Play("CureTest1");
+				if (spellName == "Fire 1")
+				for (int i = 0; i < ac.animationClips.Length; i++)
+				{
+					Debug.Log(ac.animationClips[i].name);
+					if (ac.animationClips[i].name == "CureTest1")
+					{
+
+						battleAnim = true;
+						yield return new WaitForSeconds(ac.animationClips[i].length);
+					}
+				}*/
+			
 
 
-
-			BSM.PerformList.RemoveAt(0);
+			/*BSM.PerformList.RemoveAt(0);
 				if (BSM.battleStates != BattleStateMachine.PerformAction.WIN && BSM.battleStates != BattleStateMachine.PerformAction.LOSE)
 		{
 			BSM.battleStates = BattleStateMachine.PerformAction.WAIT; //this isnt working
@@ -324,7 +355,7 @@ public class EnemyStateMachine : MonoBehaviour {
 			{ BSM.battleStates = BattleStateMachine.PerformAction.CHECKALIVE;
 				currentState = TurnState.WAITING;
 			}
-			playerAnimator.Play("Beast_Idle");
+			playerAnimator.Play("Beast_Idle");*/
 
 
 			for (int i = 0; i < ac.animationClips.Length; i++)
@@ -389,8 +420,13 @@ public class EnemyStateMachine : MonoBehaviour {
 			//wait a bit, do damage, and then animate the back to start position.
 			actionStarted = true;
 
-			if (!GMan.MariamHero)
-				playerAnimator.Play("FightManLeft_Punch");
+            if (!GMan.MariamHero)
+            {
+                AudioManager.instance.PlaySound("punch", transform.position, 1);
+                playerAnimator.Play("FightManLeft_Punch");
+            
+            }
+                
 			else
 				;
 			//playerAnimator.Play("FightManLeft_Punch");
@@ -445,8 +481,10 @@ public class EnemyStateMachine : MonoBehaviour {
 			//reset this enemy state
 			//cur_cooldown = 0f;
 			//currentState = TurnState.PROCESSING;
+			HSM.battleAnim = false;
 		}
-	}
+        //Selector.SetActive(false);
+    }
 
 	private bool MoveTowardsEnemy(Vector3 target)
 	{
@@ -457,19 +495,22 @@ public class EnemyStateMachine : MonoBehaviour {
 		return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
 	}
 
-	void DoDamage()//
+	public void DoDamage()//
 	{
-		float calc_damage = enemy.curATK + BSM.PerformList[0].chooseanAttack.attackDamage;//base attack damage + the damage from the type of attack chosen
+		float calc_damage = BSM.PerformList[0].chooseanAttack.attackDamage + BSM.randomAttack;//base attack damage + the damage from the type of attack chosen
+																						  //float calc_damage = enemy.curATK + BSM.PerformList[0].chooseanAttack.attackDamage;//base attack damage + the damage from the type of attack chosen
 		HeroToAttack.GetComponent<HeroStateMachine>().TakeDamage(calc_damage);
 
-        if (enemy.theName == "Enemy 1_1" || enemy.theName == "Enemy 2")
+        /*if (enemy.theName == "Ruffian_1" )
         {
-            AudioManager.instance.PlaySound("punch", transform.position, 1);
+           // AudioManager.instance.PlaySound("punch", transform.position, 1);
+
         }
         else
-        {
+        {*/
+            
             AudioManager.instance.PlaySound("Spell1", transform.position, 1);
-        }
+        //}
     }
 
 	public void TakeDamage(float getDamageAmount)

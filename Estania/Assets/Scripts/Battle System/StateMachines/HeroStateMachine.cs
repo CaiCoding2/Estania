@@ -1,4 +1,5 @@
 ﻿//adding to flamejavelin and backstab an if mariamhero
+//new
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,14 @@ using UnityEngine.UI;
 
 public class HeroStateMachine : MonoBehaviour
 {
+	public int ap;
+	public bool chainCountBool;
+	public float healAmount;
+	public bool magicAnim;
+	public CureAnim CA;
+	public string spellName;
+
+	public MagicMissileAnim MMA;
 	public List<bool> isChainList = new List<bool>();
 	public Transform BattleCanvas;
 	public GameObject hitPanel;
@@ -38,11 +47,16 @@ public class HeroStateMachine : MonoBehaviour
 	public List<string> comboTracker = new List<string>();
 	public List<string> flameJavelinTracker = new List<string>(new string[] { "Triangle", "Circle" });
 	public List<string> backStabTracker = new List<string>(new string[] { "Square", "Circle" });
+	public List<string> photonTracker = new List<string>(new string[] {"Triangle", "Square", "Circle" });
+
 	public List<bool> flameJavelinBools = new List<bool>(new bool[] { false, false });
 	public List<bool> backStabBools = new List<bool>(new bool[] { false, false });
+	public List<bool> photonBools = new List<bool>(new bool[] { false, false, false });
+
 	int k;
 	bool isFlameJavelin;
 	bool isBackStab;
+	bool isPhoton;
 	public int flameJavelinIndex;
 	public int comboIndex;
 	public int newComboIndex;
@@ -119,6 +133,10 @@ public class HeroStateMachine : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		
+		chainCountBool = false;
+		MMA = GameObject.Find("Magic Missile").GetComponent<MagicMissileAnim>();
+		CA = GameObject.Find("Cure").GetComponent<CureAnim>();
 		isChainList.Add(false);
 		//isChainList.Add(false);
 		//isChainList.Add(false);
@@ -127,6 +145,7 @@ public class HeroStateMachine : MonoBehaviour
 		hitPanel.SetActive(false);
 		isFlameJavelin = false;
 		isBackStab = false;
+		isPhoton = false;
 		k = 0;
 		newComboIndex = 0;
 		newComboIndexCheck = 0;
@@ -207,9 +226,18 @@ public class HeroStateMachine : MonoBehaviour
 		BSMa = GameObject.Find("BattleManager");
 		playerAnimator = GameObject.Find("Hero 1").GetComponent<Animator>();
 		GMan = GMana.GetComponent<GameManager>();
+		ap = GMan.ap;
 		BSM2 = BSMa.GetComponent<BattleStateMachine>();
 		HeroPanelSpacer = GameObject.Find("BattleCanvas").transform.Find("HeroPanel").transform.Find("HeroPanelSpacer");
 		CreateHeroPanel();
+		if (GameManager.instance.GManHP == 200 && GameManager.instance.GManMP == 100)
+			;
+		else
+		{
+			hero.curHP = GameManager.instance.GManHP;
+			hero.curMP = GameManager.instance.GManMP;
+		}
+		UpdateHeroPanel();
 		//create panel, fill in info 
 
 
@@ -243,7 +271,7 @@ public class HeroStateMachine : MonoBehaviour
 			StartCoroutine(ReturnToSpot());
 
 
-			GMan.ap += 3;
+			ap += 5;
 			ap_update();
 			BSM.ComboPanel.SetActive(false);
 
@@ -267,7 +295,7 @@ public class HeroStateMachine : MonoBehaviour
 			StartCoroutine(ReturnToSpot());
 			BSM.PerformList.RemoveAt(0);
 
-			GMan.ap = 3;
+			ap = 3;
 			BSM.ComboPanel.SetActive(false);
 			//reset BSM -> WAIT
 			if (BSM.battleStates != BattleStateMachine.PerformAction.WIN && BSM.battleStates != BattleStateMachine.PerformAction.LOSE)
@@ -290,9 +318,9 @@ public class HeroStateMachine : MonoBehaviour
 			currentState = TurnState.PROCESSING;
 		}
 		*/
-		else if (Input.GetKeyDown(KeyCode.W) == true && attacking != true && isCombo && !running && !battleAnim && !earlyReturn)
+		else if (Input.GetKeyDown(KeyCode.W) == true && attacking != true && isCombo && !running && !battleAnim && !earlyReturn && (ap - 1) >= 0)
 		{
-
+			BSM.randomAttackNum = 0;
 			comboTracker.Add("Triangle");
 
 			for (int i = 0; i < comboTracker.Count -1; i++)
@@ -302,13 +330,20 @@ public class HeroStateMachine : MonoBehaviour
 				chainCount = 0;
 					break;
 			}
+			for (int i = 0; i < comboTracker.Count - 2; i++)
+				if (comboTracker[i] == "Triangle" && comboTracker[i + 2] == "Triangle")
+				{
+					comboTracker.Remove(comboTracker[0]);
+					chainCount = 0;
+					break;
+				}
 			WHit = true;
 			comboNumber += 1;
 			hitFunction();
 			Debug.Log("Subtract ap");
-			GMan.ap -= 1;
+			ap -= 1;
 			ap_update();
-			Debug.Log(GMan.ap);
+			Debug.Log(ap);
 			GameObject comboButton = Instantiate(triangleButton) as GameObject;
 			comboBtns.Add(comboButton);
 			comboButton.transform.SetParent(ListedComboSpacer, false); //deals with overflow
@@ -340,16 +375,24 @@ public class HeroStateMachine : MonoBehaviour
 			//playerAnimator.Play("stickrunning");
 		}
 
-		else if (Input.GetKeyDown(KeyCode.A) == true && attacking != true && isCombo && !running && !battleAnim && !earlyReturn)
+		else if (Input.GetKeyDown(KeyCode.A) == true && attacking != true && isCombo && !running && !battleAnim && !earlyReturn && (ap - 2) >= 0)
 		{
+			BSM.randomAttackNum = 1;
 			comboTracker.Add("Square");
+			for (int i = 0; i < comboTracker.Count - 1; i++)
+				if (comboTracker[i] == "Square" && comboTracker[i + 1] == "Square")
+				{
+					comboTracker.Remove(comboTracker[0]);
+					chainCount = 0;
+					break;
+				}
 			AHit = true;
 			comboNumber += 1;
 			hitFunction();
 			Debug.Log("Subtract ap");
-			GMan.ap -= 1;
+			ap -= 2;
 			ap_update();
-			Debug.Log(GMan.ap);
+			Debug.Log(ap);
 			GameObject comboButton = Instantiate(squareButton) as GameObject;
 			comboBtns.Add(comboButton);
 			comboButton.transform.SetParent(ListedComboSpacer, false); //deals with overflow
@@ -362,7 +405,7 @@ public class HeroStateMachine : MonoBehaviour
 				playerAnimator.Play("Mariam_Attack_1");
 
 			attacking = true;
-			BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[0];
+			BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[1];
 			StartCoroutine(AttackDelay());
 			Debug.Log("attacking is true");
 
@@ -381,23 +424,75 @@ public class HeroStateMachine : MonoBehaviour
 			//playerAnimator.Play("stickrunning");
 		}
 
-		else if (Input.GetKeyDown(KeyCode.D) == true && attacking != true && isCombo && !running && !battleAnim && !earlyReturn)
+		else if (Input.GetKeyDown(KeyCode.D) == true && attacking != true && isCombo && !running && !battleAnim && !earlyReturn && (ap - 3) >= 0)
 		{
 
-			
+			BSM.randomAttackNum = 2;
 			attacking = true;
 			comboTracker.Add("Circle");
 			DHit = true;
 			comboNumber += 1;
 			hitFunction();
 			Debug.Log("Subtract ap");
-			GMan.ap -= 1;
+			ap -= 3;
 			ap_update();
-			Debug.Log(GMan.ap);
+			Debug.Log(ap);
 			GameObject comboButton = Instantiate(circleButton) as GameObject;
 			comboButton.transform.SetParent(ListedComboSpacer, false); //deals with overflow
 			comboBtns.Add(comboButton);
+
 			if (GMan.MariamHero)
+			{
+				for (int i = 0; i < comboTracker.Count && !isPhoton; i++)
+				{
+					Debug.Log("checking combo" + comboTracker[i]);
+					for (int j = 0; j <= photonTracker.Count; j++)
+					{
+						Debug.Log("checking deathblow" + photonTracker[j]);
+						if (photonBools[j] == false)
+							break;
+						else if (((j + 1) == photonTracker.Count) && photonBools[j] == true) //if at last index in the tracker for flame javelin and the last index has a value of true 
+							;//execute flame javelin
+					}
+					for (int j = 0, k = i; k < comboTracker.Count && j < photonTracker.Count; j++, k++)
+					{
+						Debug.Log("flamejavelintracker count = " + flameJavelinTracker.Count);
+						Debug.Log("j = " + j + "k = " + k);
+						if (comboTracker[k] == photonTracker[j])
+						{
+							Debug.Log(comboTracker[k] + " = " + photonTracker[j]);
+							photonBools[j] = true;
+							Debug.Log("truth for flame javelin!");
+							if (((j + 1) == photonTracker.Count) && photonBools[j] == true)
+							{
+								Debug.Log("FLAME JAVELIN!");
+								isPhoton = true;
+								isChainList[0] = true;
+							}
+						}
+						else
+						{
+							photonBools[j] = false;
+							//Debug.Log("FLAMEING BLOOLS IS FALSE!");
+							isChainList[0] = false;
+							if (photonBools[0] == true)
+							{
+								chainCountBool = true;
+								break; }
+							else
+								chainCountBool = false;
+								//chainCount = 0;
+							break;
+						}
+					}
+				}
+			}
+			k = 0;
+			for (int i = 0; i < photonTracker.Count; i++)
+				photonBools[i] = false;
+			//check all combos to see if you're on a combo path; if not on a combo path, reset the combo list;
+
+			if (GMan.MariamHero && !isPhoton && !isBackStab)
 			{ for (int i = 0; i < comboTracker.Count && !isFlameJavelin; i++)
 				{ Debug.Log("checking combo" + comboTracker[i]);
 					for (int j = 0; j <= flameJavelinTracker.Count; j++)
@@ -429,9 +524,13 @@ public class HeroStateMachine : MonoBehaviour
 							//Debug.Log("FLAMEING BLOOLS IS FALSE!");
 							isChainList[0] = false;
 							if (flameJavelinBools[0] == true)
+							{
+								chainCountBool = true;
 								break;
+							}
 							else
-								chainCount = 0;
+								chainCountBool = false;
+								//chainCount = 0;
 							break;
 						}
 					} }
@@ -442,8 +541,11 @@ public class HeroStateMachine : MonoBehaviour
 			//check all combos to see if you're on a combo path; if not on a combo path, reset the combo list;
 
 
-			if (isFlameJavelin)
+			if (isFlameJavelin && !isPhoton)
 			{
+				BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[3];
+
+				BSM.randomAttackNum = 3;
 				attacking = true;
 				int l = comboTracker.Count;
 				for (int i = 0; i < l; i++)
@@ -464,7 +566,7 @@ public class HeroStateMachine : MonoBehaviour
 			}//execute flameJavelin
 			Debug.Log("animate cleave");
 
-			if (GMan.MariamHero)
+			if (GMan.MariamHero && !isPhoton && !isFlameJavelin)
 			{ for (int i = 0; i < comboTracker.Count && !isBackStab; i++)
 				{
 					Debug.Log("checking combo" + comboTracker[i]);
@@ -498,9 +600,13 @@ public class HeroStateMachine : MonoBehaviour
 							//Debug.Log("FLAMEING BLOOLS IS FALSE!");
 							isChainList[0] = false;
 							if (backStabBools[0] == true)
+							{
+								chainCountBool = true;
 								break;
+							}
 							else
-								chainCount = 0;
+								//chainCount = 0;
+								chainCountBool = false;
 							break;
 						}
 					}
@@ -512,8 +618,11 @@ public class HeroStateMachine : MonoBehaviour
 			//check all combos to see if you're on a combo path; if not on a combo path, reset the combo list;
 
 
-			if (isBackStab)
+			if (isBackStab && !isPhoton)
 			{
+				BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[4];
+
+				BSM.randomAttackNum = 4;
 				attacking = true;
 				int l = comboTracker.Count;
 				for (int i = 0; i < l; i++)
@@ -534,16 +643,44 @@ public class HeroStateMachine : MonoBehaviour
 				}
 			}//execute flameJavelin
 
+			
 
-			//playerAnimator.Play(stickfigurecleave);
-			if (!isFlameJavelin && !isBackStab)
+
+			if (isPhoton)
+			{
+				BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[5];
+
+				BSM.randomAttackNum = 5;
+				attacking = true;
+				int l = comboTracker.Count;
+				for (int i = 0; i < l; i++)
+					comboTracker.Remove(comboTracker[0]);
+				//.Play("FlameJave");
+				StartCoroutine(AttackDelayPhoton());
+				Debug.Log("Want to use flame javelin!");
+				for (int i = 0; i < 1; i++)
+				{
+					if (isChainList[i] == true)
+					{
+						if (i == 0)
+							StartCoroutine(chainFunction());
+
+
+					}
+					else break;
+				}
+
+			}
+				//need to adjust to add is photon
+				//playerAnimator.Play(stickfigurecleave);
+				if (!isFlameJavelin && !isBackStab && !isPhoton)
 			{
 				if (!GMan.MariamHero)
 					playerAnimator.Play("FightManRight_Punch_2");
 				else
 					playerAnimator.Play("Mariam_Attack_2");
 				attacking = true;
-				BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[0];
+				BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[2];
 				StartCoroutine(AttackDelay());
 				Debug.Log("attacking is true");
 
@@ -557,10 +694,14 @@ public class HeroStateMachine : MonoBehaviour
 				//	doDamage();
 			}
 			attacking = false;
+				if (!isFlameJavelin && !isBackStab && !isPhoton && chainCountBool == false)
+				chainCount = 0;
+			chainCountBool = false;
 			isFlameJavelin = false;
 			isBackStab = false;
+				isPhoton = false;
 			Debug.Log("stickidle");
-
+		
 			//playerAnimator.Play("stickrunning");
 		}
 
@@ -761,7 +902,7 @@ public class HeroStateMachine : MonoBehaviour
 							Debug.Log("Early return");
 							earlyReturn = true;
 							StartCoroutine(ReturnToSpot());
-							GMan.ap += 3;
+							ap += 5;
 							ap_update();
 							BSM.ComboPanel.SetActive(false);
 							{
@@ -795,7 +936,7 @@ public class HeroStateMachine : MonoBehaviour
 
 		}
 		battleAnim = false;
-		//if (actionStarted && GMan.ap != 0)
+		//if (actionStarted && ap != 0)
 		//{
 		//	yield break;
 		//	}
@@ -806,7 +947,7 @@ public class HeroStateMachine : MonoBehaviour
 
 
 
-		if (GMan.ap == 0 || (Input.GetKeyDown(KeyCode.S) == true) && isCombo && !attacking && !earlyReturn)
+		if (ap == 0 || (Input.GetKeyDown(KeyCode.S) == true) && isCombo && !attacking && !earlyReturn)
 		{
 			dontattackme = true;
 			Debug.Log("Perform list");
@@ -815,7 +956,7 @@ public class HeroStateMachine : MonoBehaviour
 			StartCoroutine(ReturnToSpot());
 
 
-			GMan.ap += 3;
+			ap += 5;
 			ap_update();
 			BSM.ComboPanel.SetActive(false);
 			{ yield break; };
@@ -844,7 +985,7 @@ public class HeroStateMachine : MonoBehaviour
 		yield return null; }
 	private IEnumerator TimeForAction()
 	{
-		if (BSM.magicalAtk)
+		if (BSM.magicalAtk && !magicAnim)
 		{
 			//BSM.magicalAtk = false;
 			attacking = true;
@@ -869,13 +1010,17 @@ public class HeroStateMachine : MonoBehaviour
 			//RuntimeAnimatorController ac = playerAnimator.runtimeAnimatorController;
 			while (MoveTowardsEnemy(magicEnd))
 			{
-                AudioManager.instance.PlaySound("enchant", transform.position, 1);
+                
                 playerAnimator.Play("Mariam_Move_Left");
-				//playerAnimator.Play("stickrunleft");
-				//running = true;
+               
+                //playerAnimator.Play("stickrunleft");
+                //running = true;
+                battleAnim = true;
 				yield return null;
 			}
+			
 			playerAnimator.Play("Mariam_CastSpell");
+			battleAnim = true;
 			RuntimeAnimatorController ac = playerAnimator.runtimeAnimatorController;
 
 			for (int i = 0; i < ac.animationClips.Length; i++)
@@ -883,9 +1028,9 @@ public class HeroStateMachine : MonoBehaviour
 				Debug.Log(ac.animationClips[i].name);
 				if (ac.animationClips[i].name == "Mariam_CastSpell")
 				{
-
-					//battleAnim = true;
-					yield return new WaitForSeconds(ac.animationClips[i].length);
+                    AudioManager.instance.PlaySound("enchant", transform.position, 1);
+                    //battleAnim = true;
+                    yield return new WaitForSeconds(ac.animationClips[i].length);
 				}
 			}
 			//StartCoroutine(ReturnToSpot());
@@ -894,14 +1039,14 @@ public class HeroStateMachine : MonoBehaviour
 				Debug.Log(ac.animationClips[i].name);
 				if (ac.animationClips[i].name == "Mariam_CastSpell")
 				{
-
-					//battleAnim = true;
-					yield return new WaitForSeconds(ac.animationClips[i].length);
+                    AudioManager.instance.PlaySound("enchant", transform.position, 1);
+                    //battleAnim = true;
+                    yield return new WaitForSeconds(ac.animationClips[i].length);
 				}
 			}
 
-            AudioManager.instance.PlaySound("Fire", transform.position, 1);
-            doDamage();
+            //AudioManager.instance.PlaySound("Fire", transform.position, 1);
+            //doDamage();
 			StartCoroutine(ReturnToSpot());
 			//running = false;
 
@@ -917,7 +1062,7 @@ public class HeroStateMachine : MonoBehaviour
 
 		}
 
-		else
+		else if (!magicAnim)
 		{
 			isCombo = true;
 			if (actionStarted)
@@ -971,7 +1116,7 @@ public class HeroStateMachine : MonoBehaviour
 			}*/
 			atPosition = true;
 			//	playerAnimator.Play("stickidle");//animate idle
-			if (GMan.ap == 3)
+			if (ap == 3)
 				Debug.Log("HIYA!");
 			//do { yield return new WaitForSeconds(2f); }
 			//while (Input.GetKeyDown(KeyCode.S) != true);
@@ -979,11 +1124,11 @@ public class HeroStateMachine : MonoBehaviour
 			//while (Input.GetKeyDown(KeyCode.S) != true);
 
 			/*
-			while (GMan.ap != 0 || (Input.GetKeyDown(KeyCode.S) == true))
+			while (ap != 0 || (Input.GetKeyDown(KeyCode.S) == true))
 			{
 				if (Input.GetKeyDown(KeyCode.W) == true && attacking != true)
 				{
-					GMan.ap -= 2;
+					ap -= 2;
 					playerAnimator.Play("stickcleave");
 					attacking = true;
 					actionStarted = true;
@@ -997,7 +1142,7 @@ public class HeroStateMachine : MonoBehaviour
 
 				else if (Input.GetKeyDown(KeyCode.A) == true && attacking != true)
 				{
-					GMan.ap -= 1;
+					ap -= 1;
 					playerAnimator.Play("stickcleave");
 					attacking = true;
 					actionStarted = true;
@@ -1011,7 +1156,7 @@ public class HeroStateMachine : MonoBehaviour
 
 				else if (Input.GetKeyDown(KeyCode.D) == true && attacking != true)
 				{
-					GMan.ap -= 1;
+					ap -= 1;
 					playerAnimator.Play("stickcleave");
 					attacking = true;
 					actionStarted = true;
@@ -1075,7 +1220,7 @@ public class HeroStateMachine : MonoBehaviour
 		Debug.Log("USING FLAME JAVELIN");
 		BSM.infoPanel.SetActive(true);
 		BSM.InfoText.text = "Flame Javelin";
-        AudioManager.instance.PlaySound("FlameJavelin1", transform.position, 1);
+        AudioManager.instance.PlaySound("FlameJavelin", transform.position, 1);
         yield return new WaitForSeconds(0.40f); //was at 1.5, was at .75, was at .40
 		StartCoroutine(waitForInfo());
 		//BSM.infoPanel.SetActive(false);
@@ -1084,7 +1229,7 @@ public class HeroStateMachine : MonoBehaviour
 
 		//playerAnimator.Play(stickfigurecleave);
 		attacking = true;
-		BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[0];
+		//BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[0];
 
 
 		actionStarted = true;
@@ -1125,10 +1270,11 @@ public class HeroStateMachine : MonoBehaviour
 						}
 						else
 						{
+                            attacking = false;
 							Debug.Log("Early return");
 							earlyReturn = true;
 							StartCoroutine(ReturnToSpot());
-							GMan.ap += 3;
+							ap += 5;
 							ap_update();
 							BSM.ComboPanel.SetActive(false);
 							{
@@ -1163,7 +1309,7 @@ public class HeroStateMachine : MonoBehaviour
 
 		}
 		battleAnim = false;
-		//if (actionStarted && GMan.ap != 0)
+		//if (actionStarted && ap != 0)
 		//{
 		//	yield break;
 		//	}
@@ -1175,7 +1321,7 @@ public class HeroStateMachine : MonoBehaviour
 
 
 
-		if (GMan.ap == 0 || (Input.GetKeyDown(KeyCode.S) == true) && isCombo && !attacking && !earlyReturn)
+		if (ap == 0 || (Input.GetKeyDown(KeyCode.S) == true) && isCombo && !attacking && !earlyReturn)
 		{
 			dontattackme = true;
 			Debug.Log("Perform list");
@@ -1184,7 +1330,7 @@ public class HeroStateMachine : MonoBehaviour
 			StartCoroutine(ReturnToSpot());
 
 
-			GMan.ap += 3;
+			ap += 5;
 			ap_update();
 			BSM.ComboPanel.SetActive(false);
 			{ yield break;
@@ -1227,7 +1373,7 @@ public class HeroStateMachine : MonoBehaviour
 
 		//playerAnimator.Play(stickfigurecleave);
 		attacking = true;
-		BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[0];
+		//BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[0];
 
 
 		actionStarted = true;
@@ -1268,10 +1414,11 @@ public class HeroStateMachine : MonoBehaviour
 						}
 						else
 						{
+                            attacking = false;
 							Debug.Log("Early return");
 							earlyReturn = true;
 							StartCoroutine(ReturnToSpot());
-							GMan.ap += 3;
+							ap += 5;
 							ap_update();
 							BSM.ComboPanel.SetActive(false);
 							{
@@ -1306,7 +1453,7 @@ public class HeroStateMachine : MonoBehaviour
 
 		}
 		battleAnim = false;
-		//if (actionStarted && GMan.ap != 0)
+		//if (actionStarted && ap != 0)
 		//{
 		//	yield break;
 		//	}
@@ -1319,7 +1466,7 @@ public class HeroStateMachine : MonoBehaviour
 
 
 
-		if (GMan.ap == 0 || (Input.GetKeyDown(KeyCode.S) == true) && isCombo && !attacking && !earlyReturn)
+		if (ap == 0 || (Input.GetKeyDown(KeyCode.S) == true) && isCombo && !attacking && !earlyReturn)
 		{
 			dontattackme = true;
 			Debug.Log("Perform list");
@@ -1328,7 +1475,7 @@ public class HeroStateMachine : MonoBehaviour
 			StartCoroutine(ReturnToSpot());
 
 
-			GMan.ap += 3;
+			ap += 5;
 			ap_update();
 			BSM.ComboPanel.SetActive(false);
 			{
@@ -1354,8 +1501,153 @@ public class HeroStateMachine : MonoBehaviour
 		}
 	}
 
-	//end backstab
-	private IEnumerator waitForInfo()
+		//end backstab
+
+		private IEnumerator AttackDelayPhoton()
+		{
+			battleAnim = true;
+			Debug.Log("USING FLAME JAVELIN");
+			BSM.infoPanel.SetActive(true);
+			BSM.InfoText.text = "Photon Charge";
+			AudioManager.instance.PlaySound("PhotonCharge", transform.position, 1);
+			yield return new WaitForSeconds(0.40f); //was at 1.5, was at .75, was at .40
+			StartCoroutine(waitForInfo());
+			//BSM.infoPanel.SetActive(false);
+			Debug.Log("animate cleave");
+			playerAnimator.Play("Photonbigger");
+
+			//playerAnimator.Play(stickfigurecleave);
+			attacking = true;
+			//BSM.HeroChoice.chooseanAttack = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.attacks[0];
+
+
+			actionStarted = true;
+
+			actionStarted = true;
+			attacking = true;
+			if (attacking)
+				Debug.Log("ATTACKING!");
+			Debug.Log("AttackDelay");
+			//stickcleave = GameObject.Find("Hero 1").GetComponent<Animation>().name;
+			RuntimeAnimatorController ac = playerAnimator.runtimeAnimatorController;
+			for (int i = 0; i < ac.animationClips.Length; i++)
+			{
+				Debug.Log(ac.animationClips[i].name);
+				if (ac.animationClips[i].name == "Photonbigger")
+				{
+					Debug.Log("stickcleave timetowait");
+					battleAnim = true;
+					yield return new WaitForSeconds(ac.animationClips[i].length);
+					doDamage(); //switched places with button command in update
+					if (BSM.PerformList[0].Type == "Hero")
+					{
+						//EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();//catch enemy statemachine
+						for (int k = 0; k < BSM.EnemiesInBattle.Count; k++)//check if currently dead hero is in battle list
+						{
+							Debug.Log("Current number of enemies in battle: " + k + 1);
+							ESM = GameObject.Find(BSM.PerformList[0].AttackersTarget.name).GetComponent<EnemyStateMachine>();
+							//EnemyStateMachine tempEnemy = GameObject.Find(BSM.PerformList[0].AttackersTarget.name).GetComponent<EnemyStateMachine>().currentState;
+
+							//if (tempEnemy.TurnState != DEAD)
+							if (GameObject.Find(BSM.PerformList[0].AttackersTarget.name).GetComponent<EnemyStateMachine>().currentState != EnemyStateMachine.TurnState.DEAD)
+							//if (BSM.PerformList[0].AttackersTarget == BSM.EnemiesInBattle[k])
+							{
+								Debug.Log("Attacked same person!");
+								EnemyToAttack = BSM.PerformList[0].AttackersTarget;
+								currentState = TurnState.ACTION;
+								break;
+							}
+							else
+							{
+                                attacking = false;
+								Debug.Log("Early return");
+								earlyReturn = true;
+								StartCoroutine(ReturnToSpot());
+								ap += 5;
+								ap_update();
+								BSM.ComboPanel.SetActive(false);
+								{
+									battleAnim = false;
+									earlyReturn = false;
+									yield break;
+								};
+								//reset BSM -> WAIT
+								if (!dontattackme)
+								{
+
+
+									Debug.Log("Removing performlist!");
+
+								}
+								dontattackme = true;
+
+							}
+						}
+					}
+
+					attacking = false;
+					if (!attacking)
+						Debug.Log("NOT ATTACKING!");
+					if (!GMan.MariamHero)
+						playerAnimator.Play("FightManRight_Idle");
+					else
+						playerAnimator.Play("Mariam_Idle");
+					//playerAnimator.Play("stickfigureidle");
+				}
+
+
+			}
+			battleAnim = false;
+			//if (actionStarted && ap != 0)
+			//{
+			//	yield break;
+			//	}
+
+			if (actionStarted && earlyReturn)
+			{
+				earlyReturn = false;
+				yield break;
+			}
+
+
+
+			if (ap == 0 || (Input.GetKeyDown(KeyCode.S) == true) && isCombo && !attacking && !earlyReturn)
+			{
+				dontattackme = true;
+				Debug.Log("Perform list");
+				//BSM.PerformList.RemoveAt(0);
+				isCombo = false;
+				StartCoroutine(ReturnToSpot());
+
+
+				ap += 5;
+				ap_update();
+				BSM.ComboPanel.SetActive(false);
+				{
+					yield break;
+				};
+				//reset BSM -> WAIT
+				if (!dontattackme)
+				{
+
+
+					Debug.Log("Removing performlist!");
+
+				}
+				dontattackme = true;
+
+				//reset BSM -> WAIT
+
+			}
+			earlyReturn = false;
+			if (actionStarted)
+			{
+				yield break;
+			}
+		}
+		//end photon
+
+		public IEnumerator waitForInfo()
 	{
 		yield return new WaitForSeconds(.18f);
 		BSM.infoPanel.SetActive(false);
@@ -1408,12 +1700,14 @@ public class HeroStateMachine : MonoBehaviour
 		while (MoveTowardsStart(startposition))
 		{
 			running = true;
-			yield return null; }
+			yield return null;
+		}
 		isCombo = false;
 		running = false;
 
+		if (!BSM.magicalAtk)
 
-		BSM.PerformList.RemoveAt(0);
+			BSM.PerformList.RemoveAt(0);
 		if (!GMan.MariamHero)
 			playerAnimator.Play("FightManRight_Idle");
 		else
@@ -1423,7 +1717,33 @@ public class HeroStateMachine : MonoBehaviour
 		dontattackme = false;
 
 		RuntimeAnimatorController ac = playerAnimator.runtimeAnimatorController;
+		Debug.Log("BEFORE MAGICAL ATTACK");
+		if (BSM.magicalAtk)
+		{
+			magicAnim = true;
+			Debug.Log("AT MAGICAL ATTACK");
+			if (spellName == "Magic Missile") 
+			StartCoroutine(MMA.magicMissileAnimation());
+			else if (spellName == "Cure")
+			StartCoroutine(CA.cureAnimation());
+			
+			/*playerAnimator.Play("CureTest1");
+			if (spellName == "Fire 1")
+			for (int i = 0; i < ac.animationClips.Length; i++)
+			{
+				Debug.Log(ac.animationClips[i].name);
+				if (ac.animationClips[i].name == "CureTest1")
+				{
 
+					battleAnim = true;
+					yield return new WaitForSeconds(ac.animationClips[i].length);
+				}
+			}*/
+		}
+
+
+		//battleAnim = false;
+		/*
 		if (BSM.magicalAtk)
 			for (int i = 0; i < ac.animationClips.Length; i++)
 			{
@@ -1435,7 +1755,7 @@ public class HeroStateMachine : MonoBehaviour
 					yield return new WaitForSeconds(ac.animationClips[i].length);
 				}
 			}
-
+*/
 		if (!BSM.magicalAtk)
 		{
 			if (BSM.battleStates != BattleStateMachine.PerformAction.WIN && BSM.battleStates != BattleStateMachine.PerformAction.LOSE)
@@ -1457,9 +1777,9 @@ public class HeroStateMachine : MonoBehaviour
 			//BSM.PerformList.RemoveAt(0);
 		}
 		//BSM.magicalAtk = false;
-
+		battleAnim = false;
 	}
-	private bool MoveTowardsEnemy(Vector3 target)
+	public bool MoveTowardsEnemy(Vector3 target)
 	{
 		return target != (transform.position = Vector3.MoveTowards(transform.position, target, animSpeed * Time.deltaTime));
 	}
@@ -1873,7 +2193,57 @@ public class HeroStateMachine : MonoBehaviour
 		Destroy(DMGText);
 	}
 
-		public void TakeDamage(float getDamageAmount)
+	public IEnumerator waitForHeal()
+	{
+        AudioManager.instance.PlaySound("heal", transform.position, 1);
+        GameObject DMGText = Instantiate(BSM.dmgText, transform.position, Quaternion.identity) as GameObject;
+		//DMGText.transform.position = new Vector3(1, 1, 1);
+		DMGText.transform.SetParent(BSM.BattleCanvas, false);
+		rigidbody = DMGText;
+		dmgBtns.Add(DMGText);
+		rigidbod = DMGText.GetComponent<Rigidbody2D>();
+		DMGTEXT = DMGText.GetComponent<Text>();
+		//Text dmg_text = DMGText.transform.Find("Text").gameObject.GetComponent<Text>();
+		//dmg_text.text = damage;
+		DMGTEXT.text = "" + healAmount;
+		//DMGText.transform.position = new Vector3(1, 1, 1);
+
+		//ESM = performer.GetComponent<EnemyStateMachine>();//catch enemy statemachine
+		//EnemyStateMachine tempenemy = GameObject.Find(BSM.PerformList[0].AttackersTarget.name)
+		//ESM = GameObject.Find(BSM.PerformList[0].AttackersGameObject.name).GetComponent<EnemyStateMachine>();
+
+		/*if (BSM.battleStates != BattleStateMachine.PerformAction.WIN && BSM.battleStates != BattleStateMachine.PerformAction.LOSE)
+		{
+			//argument is out of range, and that's why it's not working
+			//BSM.PerformList.RemoveAt(0);
+
+			BSM.battleStates = BattleStateMachine.PerformAction.WAIT; //this isnt working
+			ESM.cur_cooldown = 0f;
+			ESM.currentState = EnemyStateMachine.TurnState.PROCESSING;
+
+			ESM.actionStarted = false;
+		}*/
+		DMGTEXT.color = Color.green;
+
+		rigidbod.gravityScale = -1.5f; //-2
+		rigidbod.drag = 8f;
+		DMGText.transform.Rotate(Vector3.right * 50); //10000
+		rigidbod.angularDrag = 2f;
+		yield return new WaitForSeconds(.1f);
+		rigidbody.transform.Rotate(Vector3.right * 50); //10000
+		yield return new WaitForSeconds(.1f);
+		rigidbody.transform.Rotate(Vector3.right * 50); //10000
+		yield return new WaitForSeconds(.1f);
+		rigidbody.transform.Rotate(Vector3.right * 50); //10000
+		yield return new WaitForSeconds(.1f);
+		rigidbody.transform.Rotate(Vector3.left * 200); //10000
+		rigidbod.gravityScale = 1f;
+		DMGTEXT.color = Color.green;
+		yield return new WaitForSeconds(.3f);
+		Destroy(DMGText);
+	}
+
+	public void TakeDamage(float getDamageAmount)
 	{
 		hero.curHP -= getDamageAmount;//do damage to hero
 		damage = getDamageAmount;
@@ -1925,9 +2295,11 @@ private IEnumerator damageAnimWait()
 				}
 			}
 	}
-	void doDamage()
+	public void doDamage()
 	{
-		float calc_damage = hero.curATK + BSM.PerformList[0].chooseanAttack.attackDamage;
+        AudioManager.instance.PlaySound("Spell1", transform.position, 1);
+        //float calc_damage = hero.curATK + BSM.PerformList[0].chooseanAttack.attackDamage;
+        float calc_damage = BSM.PerformList[0].chooseanAttack.attackDamage;
 		EnemyToAttack.GetComponent<EnemyStateMachine>().TakeDamage(calc_damage);
 	}
 
@@ -1953,8 +2325,28 @@ private IEnumerator damageAnimWait()
 
 	void ap_update()
 	{
-		AP_Text.text = "" + GMan.ap;
+		AP_Text.text = "" + ap;
 	}
+
+	public void heal()
+	{
+       
+		if (hero.curHP + hero.MagicAttacks[1].attackDamage >= hero.baseHP)
+		{
+			healAmount = hero.baseHP - hero.curHP;
+			hero.curHP = hero.baseHP;
+			
+		}
+		else
+		{
+			healAmount = hero.MagicAttacks[1].attackDamage;
+			hero.curHP += hero.MagicAttacks[1].attackDamage;
+		}
+	
+		UpdateHeroPanel();
+
+	}
+
 }
 
 /*

@@ -1,4 +1,4 @@
-﻿
+﻿//new
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class BattleStateMachine : MonoBehaviour
 {
+	public int randomMagicMissile;
+	public int randomCure;
+	public int randomAttack;
+	public int randomAttackNum;
 	public HeroStateMachine HSM2;
+	public EnemyStateMachine ESM2;
 	public enum PerformAction
 	{
 		WAIT,
@@ -77,7 +82,7 @@ public class BattleStateMachine : MonoBehaviour
 	public Transform magicSpacer;
 	public GameObject actionButton;
 	public GameObject magicButton;
-	
+
 
 	//text
 
@@ -110,6 +115,7 @@ public class BattleStateMachine : MonoBehaviour
 	}
 	void Start()
 	{
+
 		HSM2 = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>();
 		//ComboPanel.SetActive(false);
 		infoPanel.SetActive(false);
@@ -139,29 +145,59 @@ public class BattleStateMachine : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+		randomMagicMissile = Random.Range(0, 11);
+		randomCure = Random.Range(0, 21);
+		randomAttack = Random.Range(0, 11);
+		//ESM.GetComponent<EnemyStateMachine>().enemy.attacks[0].attackDamage = 25f + randomAttack;
+		randomAttack = Random.Range(0, 11);
+		//ESM.GetComponent<EnemyStateMachine>().enemy.MagicAttacks[0].attackDamage = 35f + randomAttack;
 	
+		if (randomAttackNum == 0 || randomAttackNum == 1 || randomAttackNum == 2)
+
+		{ randomAttack = Random.Range(0, 11);
+			if (randomAttackNum == 0)
+			HSM2.GetComponent<HeroStateMachine>().hero.attacks[0].attackDamage = 15f + randomAttack;
+			else if (randomAttackNum == 1)
+				HSM2.GetComponent<HeroStateMachine>().hero.attacks[1].attackDamage = 35f + randomAttack;
+			else if (randomAttackNum == 2)
+				HSM2.GetComponent<HeroStateMachine>().hero.attacks[2].attackDamage = 55f + randomAttack;
+		}
+
+
+		else if (randomAttackNum == 3 || randomAttackNum == 4 || randomAttackNum == 5)
+		{	randomAttack = Random.Range(0, 21);
+		
+			if (randomAttackNum == 3)
+				HSM2.GetComponent<HeroStateMachine>().hero.attacks[3].attackDamage = 70f + randomAttack;
+			else if (randomAttackNum == 4)
+				HSM2.GetComponent<HeroStateMachine>().hero.attacks[4].attackDamage = 90f + randomAttack;
+			else if (randomAttackNum == 5)
+				HSM2.GetComponent<HeroStateMachine>().hero.attacks[5].attackDamage = 115f + randomAttack;
+		}
+		HSM2.GetComponent<HeroStateMachine>().hero.MagicAttacks[0].attackDamage = 80f + randomMagicMissile;
+		HSM2.GetComponent<HeroStateMachine>().hero.MagicAttacks[1].attackDamage = 100f + randomCure;
+
 		if (battleStates == PerformAction.WIN)
 			Debug.Log("WEVE WON");
 		if (Input.GetKeyDown(KeyCode.B))
 			Debug.Log("B is pressed");
-		if ((deathWaitOverDefeat == true) && Input.GetKeyDown(KeyCode.A))
+		if ((deathWaitOverDefeat == true) && Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
 		{
-            SceneManager.LoadScene("ExitScreen");
-            //GameManager.instance.loadSceneAfterBattle();
-            GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+			SceneManager.LoadScene("ExitScreen");
+			//GameManager.instance.loadSceneAfterBattle();
+			GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
 			GameManager.instance.enemiesToBattle.Clear();
 		}
-		if ((deathWaitOver == true) && Input.GetKeyDown(KeyCode.A))
-			{
-            //SceneManager.LoadScene("ExitScreen");
-            GameManager.instance.loadSceneAfterBattle();
-            GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
-			GameManager.instance.enemiesToBattle.Clear();}
+		if ((deathWaitOver == true) && Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
+		{
+			//SceneManager.LoadScene("ExitScreen");
+			GameManager.instance.loadSceneAfterBattle();
+			GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+			GameManager.instance.enemiesToBattle.Clear(); }
 
 
-			//StartCoroutine(waitForVictory());
-			if (AttackPanel.gameObject.activeSelf == false)
+		//StartCoroutine(waitForVictory());
+		if (AttackPanel.gameObject.activeSelf == false)
 		{
 			actionBtnsIndex = 0;
 			previousActionBtnsIndex = 0;
@@ -271,7 +307,7 @@ public class BattleStateMachine : MonoBehaviour
 					{
 						HeroesInBattle[i].GetComponent<HeroStateMachine>().currentState = HeroStateMachine.TurnState.WAITING;
 					}
-					if (deathWaitOver != true);
+					if (deathWaitOver != true) ;
 					StartCoroutine(waitForDeath());
 
 					if (deathWaitOver == true)
@@ -279,11 +315,16 @@ public class BattleStateMachine : MonoBehaviour
 						Debug.Log("WAIT FOR DEATH IS OVER");
 						infoPanel.SetActive(true);
 						InfoText.text = "Victory!";
+						if (GameManager.instance.MariamHero == true)
+						{
+							GameManager.instance.GManHP = HSM2.hero.curHP;
+							GameManager.instance.GManMP = HSM2.hero.curMP;
+						}
 						//StartCoroutine(waitForVictory());
-					//	if (Input.GetKeyDown(KeyCode.B))
+						//	if (Input.GetKeyDown(KeyCode.B))
 						//	{ GameManager.instance.loadSceneAfterBattle();
-							//GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
-							//GameManager.instance.enemiesToBattle.Clear();
+						//GameManager.instance.gameState = GameManager.GameStates.WORLD_STATE;
+						//GameManager.instance.enemiesToBattle.Clear();
 						//}
 					}
 				}
@@ -372,7 +413,7 @@ public class BattleStateMachine : MonoBehaviour
 	{
 		magicSelect = false;
 		HeroChoice.AttackersTarget = chosenEnemy;
-		if (physicalAtk)
+		if (physicalAtk && !HSM2.battleAnim)
 		{
 			ComboPanel.SetActive(true);
 			physicalAtk = false;
@@ -387,7 +428,7 @@ public class BattleStateMachine : MonoBehaviour
 				HSM2.stats.HeroMP.text = "MP: " + HSM2.hero.curMP;
 				Heroinput = HeroGUI.DONE;
 				*/
-			if ((HSM2.hero.curMP - HSM2.hero.MagicAttacks[magicBtnsIndex].attackCost) >= 0)
+			if ((HSM2.hero.curMP - HSM2.hero.MagicAttacks[magicBtnsIndex].attackCost) >= 0 && !HSM2.battleAnim)
 			{
 				magicalAtk = true;
 				magical = false;
@@ -401,7 +442,7 @@ public class BattleStateMachine : MonoBehaviour
 
 	public void Input6()
 	{
-		if (Input.GetKeyDown(KeyCode.W) == true)
+		if (Input.GetKeyDown(KeyCode.W) == true  && !InGame.GameIsPaused)
 		{ }
 	}
 	void HeroInputDone()
@@ -454,7 +495,11 @@ public class BattleStateMachine : MonoBehaviour
 	{
 		GameObject AttackButton = Instantiate(actionButton) as GameObject;//change text inside of button bottom
 		Text AttackButtonText = AttackButton.transform.Find("Text").gameObject.GetComponent<Text>();
-		AttackButtonText.text = "Attack";
+		if (GameManager.instance.MariamHero)
+			AttackButtonText.text = "Slash";
+		else
+			AttackButtonText.text = "Punch";
+		//AttackButtonText.text = "Attack";
 		AttackButton.GetComponent<Button>().onClick.AddListener(() => Input1());//paste any function into onclick event. When we click that button it will perform input 1
 		AttackButton.transform.SetParent(actionSpacer, false);
 		atkBtns.Add(AttackButton);
@@ -462,41 +507,45 @@ public class BattleStateMachine : MonoBehaviour
 		Debug.Log("Action button number before error" + actionBtns.Count);
 		//actionBtns[actionBtnsIndex].GetComponent<Image>().color = Color.yellow;
 
-		GameObject MagicAttackButton = Instantiate(actionButton) as GameObject;//change text inside of button bottom
-		Text MagicAttackButtonText = MagicAttackButton.transform.Find("Text").gameObject.GetComponent<Text>();
-		MagicAttackButtonText.text = "Magic";
-		MagicAttackButton.GetComponent<Button>().onClick.AddListener(() => Input3());
-		//
-
-		MagicAttackButton.transform.SetParent(actionSpacer, false);
-		atkBtns.Add(MagicAttackButton);
-		actionBtns.Add(MagicAttackButton);
-
-		if (HeroesToManage[0].GetComponent<HeroStateMachine>().hero.MagicAttacks.Count > 0)
+		if (GameManager.instance.MariamHero)
 		{
-			foreach (BaseAttack magicAtk in HeroesToManage[0].GetComponent<HeroStateMachine>().hero.MagicAttacks) //for each spell create a button
+
+			GameObject MagicAttackButton = Instantiate(actionButton) as GameObject;//change text inside of button bottom
+			Text MagicAttackButtonText = MagicAttackButton.transform.Find("Text").gameObject.GetComponent<Text>();
+			MagicAttackButtonText.text = "Magic";
+			MagicAttackButton.GetComponent<Button>().onClick.AddListener(() => Input3());
+			//
+
+			MagicAttackButton.transform.SetParent(actionSpacer, false);
+			atkBtns.Add(MagicAttackButton);
+			actionBtns.Add(MagicAttackButton);
+
+			if (HeroesToManage[0].GetComponent<HeroStateMachine>().hero.MagicAttacks.Count > 0)
 			{
-				GameObject MagicButton = Instantiate(magicButton);
-				Text MagicButtonText = MagicButton.transform.Find("Text").gameObject.GetComponent<Text>();
-				MagicButtonText.text = magicAtk.attackName;
-				AttackButton ATB = MagicButton.GetComponent<AttackButton>();
-				ATB.magicAttackToPerform = magicAtk;
-				MagicButton.transform.SetParent(magicSpacer, false); //place buttons into right spacer (this should be how you add items to an inventory)
-				atkBtns.Add(MagicButton);
-				magicBtns.Add(MagicButton);
-				//make inventory by adding scripts to a hero and then populating the menu with those available in inventory
+				foreach (BaseAttack magicAtk in HeroesToManage[0].GetComponent<HeroStateMachine>().hero.MagicAttacks) //for each spell create a button
+				{
+					GameObject MagicButton = Instantiate(magicButton);
+					Text MagicButtonText = MagicButton.transform.Find("Text").gameObject.GetComponent<Text>();
+					MagicButtonText.text = magicAtk.attackName;
+					AttackButton ATB = MagicButton.GetComponent<AttackButton>();
+					ATB.magicAttackToPerform = magicAtk;
+					MagicButton.transform.SetParent(magicSpacer, false); //place buttons into right spacer (this should be how you add items to an inventory)
+					atkBtns.Add(MagicButton);
+					magicBtns.Add(MagicButton);
+					//make inventory by adding scripts to a hero and then populating the menu with those available in inventory
+				}
 			}
-		}
-		else
-		{
-			MagicAttackButton.GetComponent<Button>().interactable = false;//false so we dont perform a magic atack
+			else 
+			
+				MagicAttackButton.GetComponent<Button>().interactable = false;//false so we dont perform a magic atack
+			
 		}
 	}
 
 	void selectActionButtons() // allows player to select using keyboard / ps4 controller one of the four commands: attack, magic, charge, and item.
 	{
 		Debug.Log("Action Button Index = " + actionBtnsIndex);
-		if (Input.GetKeyDown(KeyCode.DownArrow))
+		if (Input.GetKeyDown(KeyCode.DownArrow) && !InGame.GameIsPaused)
 		{
 			previousActionBtnsIndex = actionBtnsIndex;
 			actionBtnsIndex += 1;
@@ -506,7 +555,7 @@ public class BattleStateMachine : MonoBehaviour
 			Debug.Log(actionBtnsIndex);
 			Debug.Log("Action buttons amount = " + actionBtns.Count);
 		}
-		if (Input.GetKeyDown(KeyCode.UpArrow))
+		if (Input.GetKeyDown(KeyCode.UpArrow) && !InGame.GameIsPaused)
 		{
 			previousActionBtnsIndex = actionBtnsIndex;
 			actionBtnsIndex -= 1;
@@ -515,7 +564,7 @@ public class BattleStateMachine : MonoBehaviour
 			Debug.Log(actionBtnsIndex);
 			Debug.Log("Action buttons amount = " + actionBtns.Count);
 		}
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
 		{
 			actionBtns[actionBtnsIndex].GetComponent<Button>().onClick.Invoke();
 			//actionBtnsIndex = 0;
@@ -526,7 +575,7 @@ public class BattleStateMachine : MonoBehaviour
 	void selectEnemyButtons() // allows player to select using keyboard / ps4 controller one of the four commands: attack, magic, charge, and item.
 	{
 		Debug.Log("Enemy Button Index = " + EnemyBtnsIndex);
-		if (Input.GetKeyDown(KeyCode.DownArrow))
+		if (Input.GetKeyDown(KeyCode.DownArrow) && !InGame.GameIsPaused)
 		{
 			previousEnemyBtnsIndex = EnemyBtnsIndex;
 			EnemyBtnsIndex += 1;
@@ -536,7 +585,7 @@ public class BattleStateMachine : MonoBehaviour
 			Debug.Log(EnemyBtnsIndex);
 			Debug.Log("Action buttons amount = " + enemyBtns.Count);
 		}
-		if (Input.GetKeyDown(KeyCode.UpArrow))
+		if (Input.GetKeyDown(KeyCode.UpArrow) && !InGame.GameIsPaused)
 		{
 			previousEnemyBtnsIndex = EnemyBtnsIndex;
 			EnemyBtnsIndex -= 1;
@@ -545,7 +594,7 @@ public class BattleStateMachine : MonoBehaviour
 			Debug.Log(EnemyBtnsIndex);
 			Debug.Log("Enemy buttons amount = " + enemyBtns.Count);
 		}
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
 		{
 			Debug.Log("A has been clicked!");
 			enemyBtns[EnemyBtnsIndex].GetComponent<Button>().onClick.Invoke();
@@ -572,7 +621,7 @@ public class BattleStateMachine : MonoBehaviour
 	void selectMagicButtons() // allows player to select using keyboard / ps4 controller one of the four commands: attack, magic, charge, and item.
 	{
 		Debug.Log("Magic Button Index = " + magicBtnsIndex);
-		if (Input.GetKeyDown(KeyCode.DownArrow))
+		if (Input.GetKeyDown(KeyCode.DownArrow) && !InGame.GameIsPaused)
 		{
 			previousMagicBtnsIndex = magicBtnsIndex;
 			magicBtnsIndex += 1;
@@ -582,7 +631,7 @@ public class BattleStateMachine : MonoBehaviour
 			Debug.Log("MagicBtnsIndex " + magicBtnsIndex);
 			Debug.Log("Magic buttons amount = " + magicBtns.Count);
 		}
-		if (Input.GetKeyDown(KeyCode.UpArrow))
+		if (Input.GetKeyDown(KeyCode.UpArrow) && !InGame.GameIsPaused)
 		{
 			previousMagicBtnsIndex = magicBtnsIndex;
 			magicBtnsIndex -= 1;
@@ -591,10 +640,21 @@ public class BattleStateMachine : MonoBehaviour
 			Debug.Log(magicBtnsIndex);
 			Debug.Log("Magic buttons amount = " + magicBtns.Count);
 		}
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
 		{
 			Debug.Log("A has been clicked!");
-			magicBtns[magicBtnsIndex].GetComponent<Button>().onClick.Invoke();
+			if (magicBtnsIndex == 0)
+			{
+				HSM2.spellName = "Magic Missile";
+				magicBtns[magicBtnsIndex].GetComponent<Button>().onClick.Invoke();
+			}
+			else if (magicBtnsIndex == 1)
+			{ HSM2.spellName = "Cure";
+				magicBtns[magicBtnsIndex].GetComponent<Button>().onClick.Invoke();
+			}
+			if (HSM2.spellName == "Cure")
+				Debug.Log("We have a cure!");
+
 			infoPanel.SetActive(false);
 			//EnemyBtnsIndex = 0;
 			//previousEnemyBtnsIndex = 0;
@@ -605,16 +665,19 @@ public class BattleStateMachine : MonoBehaviour
 	{
 		magicBtns[previousMagicBtnsIndex].GetComponent<Image>().color = Color.black;
 		magicBtns[magicBtnsIndex].GetComponent<Image>().color = Color.yellow;
-		infoPanel.SetActive(true);
-		InfoText.text = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.MagicAttacks[magicBtnsIndex].attackDescription;
+		if (!HSM2.battleAnim)
+		{
+			infoPanel.SetActive(true);
+			InfoText.text = GameObject.Find("Hero 1").GetComponent<HeroStateMachine>().hero.MagicAttacks[magicBtnsIndex].attackDescription;
+		}
 	}
 
 	private IEnumerator selectingButtons()
 	{
 
-		if ((AttackPanel.gameObject.activeSelf == false) && (Input.GetKeyDown(KeyCode.S) && ((MagicPanel.gameObject.activeSelf == true) || ((EnemySelectPanel.gameObject.activeSelf == true) && (magicSelect == false)))))
+		if ((AttackPanel.gameObject.activeSelf == false) && (Input.GetKeyDown(KeyCode.S) &&  ((MagicPanel.gameObject.activeSelf == true) || ((EnemySelectPanel.gameObject.activeSelf == true) && (magicSelect == false) && !InGame.GameIsPaused))))
 			backToAttackPanel();
-		if ((AttackPanel.gameObject.activeSelf == false) && (Input.GetKeyDown(KeyCode.S) && ((MagicPanel.gameObject.activeSelf == true) || ((EnemySelectPanel.gameObject.activeSelf == true) && (magicSelect == true)))))
+		if ((AttackPanel.gameObject.activeSelf == false) && (Input.GetKeyDown(KeyCode.S) && ((MagicPanel.gameObject.activeSelf == true) || ((EnemySelectPanel.gameObject.activeSelf == true) && (magicSelect == true) && !InGame.GameIsPaused))))
 			backToAttackPanelMagic();
 
 		if (MagicPanel.gameObject.activeSelf == true)
@@ -702,22 +765,51 @@ public class BattleStateMachine : MonoBehaviour
 		CreateAttackButtons();
 		MagicPanel.SetActive(true);
 		magical = false;
-	
+
 
 	}
 
 
 	public void Input4(BaseAttack chooseaMagic)//choose a magic attack
 	{
-		magical = true;
-		HeroChoice.Attacker = HeroesToManage[0].name;
-		HeroChoice.AttackersGameObject = HeroesToManage[0];//saving the hero game object of heroes to manage in attackersgameobject.
-		HeroChoice.Type = "Hero";
+	//	if (!HSM2.battleAnim)
+		//{
+			Debug.Log("AT INPUT 4");
+			magical = true;
+			if (magicBtnsIndex == 1 )
+			{
+			magicSelect = false;
+			if ((HSM2.hero.curMP - HSM2.hero.MagicAttacks[magicBtnsIndex].attackCost) >= 0)
+				{
+					HeroChoice.Attacker = HeroesToManage[0].name;
+					HeroChoice.AttackersGameObject = HeroesToManage[0];//saving the hero game object of heroes to manage in attackersgameobject.
+					HeroChoice.Type = "Hero";
 
-		HeroChoice.chooseanAttack = chooseaMagic;
-		MagicPanel.SetActive(false);
-		EnemySelectPanel.SetActive(true);
-		EnemyButtons();
+					HeroChoice.chooseanAttack = chooseaMagic;
+					MagicPanel.SetActive(false);
+					if ((HSM2.hero.curMP - HSM2.hero.MagicAttacks[magicBtnsIndex].attackCost) >= 0)
+					{
+						magicalAtk = true;
+						magical = false;
+						HSM2.hero.curMP -= HeroesToManage[0].GetComponent<HeroStateMachine>().hero.MagicAttacks[magicBtnsIndex].attackCost;
+						HSM2.stats.HeroMP.text = "MP: " + HSM2.hero.curMP;
+					magicBtnsIndex = 0;
+					Heroinput = HeroGUI.DONE;
+					}
+				}
+			}
+			else
+			{
+				HeroChoice.Attacker = HeroesToManage[0].name;
+				HeroChoice.AttackersGameObject = HeroesToManage[0];//saving the hero game object of heroes to manage in attackersgameobject.
+				HeroChoice.Type = "Hero";
+
+				HeroChoice.chooseanAttack = chooseaMagic;
+				MagicPanel.SetActive(false);
+				EnemySelectPanel.SetActive(true);
+				EnemyButtons();
+			}
+	//	}
 	}
 
 	public void Input3()//switching to magic attacks
@@ -764,7 +856,7 @@ public class BattleStateMachine : MonoBehaviour
 	private IEnumerator waitForVictory()
 	{
 		Debug.Log("Waitin for victory!");
-		if (Input.GetKeyDown(KeyCode.A))
+		if (Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
 		{
 			
 			GameManager.instance.loadSceneAfterBattle();

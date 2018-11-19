@@ -8,7 +8,7 @@ public class Fire1Spell : BaseAttack {
 	{
 		attackName = "Fire 1";
 		attackDescription = "Lights enemy ablaze 10 MP";
-		attackDamage = 20f;
+		attackDamage = 35f;
 		attackCost = 10f;
 	}
 }

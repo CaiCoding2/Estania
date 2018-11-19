@@ -17,7 +17,7 @@ public class Bird : MonoBehaviour {
 	void Update () {
 
         transform.Translate(birdSpeed * Time.deltaTime, 0, 0);
-		if(transform.position.x > camSize.x +  15)
+		if(transform.position.x > camSize.x +  35)
         {
             Destroy(gameObject);
         }

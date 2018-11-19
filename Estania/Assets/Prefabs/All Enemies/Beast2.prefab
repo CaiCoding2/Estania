@@ -156,7 +156,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1025528720390812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.36, y: 2.46, z: 0}
+  m_LocalPosition: {x: 0.08, y: 2.35, z: 0}
   m_LocalScale: {x: 8.3272, y: 7.0939, z: 1}
   m_Children: []
   m_Father: {fileID: 4126226089172684}
@@ -191,13 +191,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ebb691bfc4da04bab76823ada09c4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LA: {fileID: 0}
   playerAnimator: {fileID: 0}
   GMana: {fileID: 0}
   dmgBtns: []
   enemy:
     theName: Indigen Greater
-    baseHP: 400
-    curHP: 400
+    baseHP: 900
+    curHP: 900
     baseMP: 0
     curMP: 0
     baseATK: 10
@@ -214,7 +215,7 @@ MonoBehaviour:
   deathAnimTimer: 0
   rigidbod: {fileID: 0}
   rigidbody: {fileID: 0}
-  DMGTEXT: {fileID: 114944365393486810, guid: fe135ce8ca134f747b7ae2888d0a3edf, type: 2}
+  DMGTEXT: {fileID: 114271949397403094, guid: a3761e64ce033bb4099b3f3c52d83d42, type: 2}
   EES: {fileID: 0}
   HSMObject: {fileID: 0}
   damage: 0
@@ -349,8 +350,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1767345373
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c81d8989b3dad4c458ddfd07f32efb30, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

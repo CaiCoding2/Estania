@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hammerswing : BaseAttack {
+public class Hammerswing : BaseAttack
+{
 
 	public Hammerswing()
 	{
-		attackName = "Hammer Swing";
-		attackDescription = "This is a powerful hammer swing attack";
-		attackDamage = 15f;
+		attackName = "Backstab";
+		attackDamage = 25f;
+		attackDescription = "Attack with a slash";
 		attackCost = 0;
 	}
-
 }

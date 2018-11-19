@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FinaleCutsceneManager : MonoBehaviour {
     public bool cutsceneActive;
@@ -27,7 +28,7 @@ public class FinaleCutsceneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (cutsceneActive && Input.GetKeyDown(KeyCode.A))
+        if (cutsceneActive && Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
         {
             currentLine++;
         }
@@ -57,6 +58,7 @@ public class FinaleCutsceneManager : MonoBehaviour {
             cutsceneActive = false;
             //blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, 1f);
             currentLine = 0;
+            StartCoroutine(waitForLoad());
         }
 
         
@@ -66,5 +68,10 @@ public class FinaleCutsceneManager : MonoBehaviour {
     public void ShowCutscene()
     {
         cutsceneActive = true;
+    }
+    private IEnumerator waitForLoad()
+    {
+        yield return new WaitForSeconds(1.25f);
+        SceneManager.LoadScene("Menu");
     }
 }

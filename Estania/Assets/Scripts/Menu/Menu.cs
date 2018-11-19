@@ -15,8 +15,9 @@ public class Menu : MonoBehaviour {
 
 	void Start()
 	{
-
-		SetMusicVolume(.3f);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        SetMusicVolume(.3f);
 		volumeSliders [0].value = AudioManager.instance.masterVolumePercent;
 		volumeSliders [1].value = AudioManager.instance.musicVolumePercent;
 		volumeSliders [2].value = AudioManager.instance.sfxVolumePercent;

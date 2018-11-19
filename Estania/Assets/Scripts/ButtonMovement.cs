@@ -5,13 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class ButtonMovement : MonoBehaviour {
 
-    int index = 0;
-    public int totallevels = 2;
-    public float yOffset = 1f;
+    //int index = 0;
+    //public int totallevels = 2;
+    //public float yOffset = 1f;
 
-    void Start() {
+  
+    public void returnToMain()
+    {
+        SceneManager.LoadScene("Menu");
     }
-    void Update()
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    public void playClick()
+    {
+        AudioManager.instance.PlaySound("Click", transform.position, 1);
+    }
+    /*void Update()
     {
         if (Input.GetKeyDown(KeyCode.DownArrow)) {
             if (index < totallevels - 1)
@@ -22,6 +35,10 @@ public class ButtonMovement : MonoBehaviour {
                 transform.position = position;
             }
         }
+
+       
+
+        
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (index > 0)
@@ -46,5 +63,5 @@ public class ButtonMovement : MonoBehaviour {
 
 
         }
-    }
+    }*/
 }

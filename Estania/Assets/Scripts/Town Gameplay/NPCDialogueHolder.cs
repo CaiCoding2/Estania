@@ -10,6 +10,8 @@ public class NPCDialogueHolder : MonoBehaviour
     public string speaker;
     public string dialogueLine;
 
+    private bool triggerDialogue = false;
+
     // Use this for initialization
     void Start()
     {
@@ -24,27 +26,54 @@ public class NPCDialogueHolder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("dialogueActive");
+        //Debug.Log(dMan.dialogActive);
 
-    }
-
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if(other.gameObject.name == "Player")
+        if (!dMan.dialogActive && Input.GetKeyDown(KeyCode.A) && triggerDialogue)
         {
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                dMan.ShowBox(speaker, dialogueLine);
-            }
+            //Debug.Log("SHOW BOX");
+            dMan.ShowBox(speaker, dialogueLine);
+            
 
             if (transform.parent.GetComponent<NPCVertical>() != null)
             {
                 transform.parent.GetComponent<NPCVertical>().canMove = false;
-            }else if (transform.parent.GetComponent<NPCHorizontal>() != null)
+            }
+            if (transform.parent.GetComponent<NPCHorizontal>() != null)
             {
                 transform.parent.GetComponent<NPCHorizontal>().canMove = false;
             }
+            
+            return;
+        }
+
+        
+        if(dMan.dialogActive && Input.GetKeyDown(KeyCode.A) && triggerDialogue)
+        {
+            //Debug.Log("HIDE BOX");
+            dMan.hideBox();
         }
         
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name == "Player")
+        {
+            //Debug.Log("Enter");
+            triggerDialogue = true;    
+        }
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if(other.gameObject.name == "Player")
+        {
+            triggerDialogue = false;
+            //Debug.Log("Exit");
+        }
     }
 
 

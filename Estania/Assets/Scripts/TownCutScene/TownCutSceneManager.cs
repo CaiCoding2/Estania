@@ -35,7 +35,7 @@ public class TownCutSceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cutsceneActive && Input.GetKeyDown(KeyCode.A))
+        if (cutsceneActive && Input.GetKeyDown(KeyCode.A) && !InGame.GameIsPaused)
         {
             currentLine++;
         }

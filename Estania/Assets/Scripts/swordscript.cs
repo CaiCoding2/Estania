@@ -7,6 +7,7 @@ public class swordscript : MonoBehaviour
 {public int counter;
 	public GameObject enemyToBeSpawned;
 	public enemyencounterspawner EES;
+    public Transform spawnpoint;
 	GameObject spawnedEnemy;
 	// Use this for initialization
 	void Start()
@@ -29,8 +30,9 @@ public class swordscript : MonoBehaviour
 			if(Input.GetKeyDown(KeyCode.A))
 		{
 			Debug.Log("INSTANTIATING");
+            AudioManager.instance.PlaySound("MonsterTransition", transform.position, 1);
 			GameManager.instance.curRegions = 1;
-				spawnedEnemy = Instantiate(enemyToBeSpawned, Vector3.zero, Quaternion.identity) as GameObject;
+				spawnedEnemy = Instantiate(enemyToBeSpawned, spawnpoint.position, Quaternion.identity) as GameObject;
 				counter = 1;
 				GameManager.instance.counter = counter;
 			EES.counter = 1;

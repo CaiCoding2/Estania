@@ -19,6 +19,8 @@ public class NPCDialogueManager : MonoBehaviour {
 
     private PlayerController thePlayer;
 
+    public bool keyUpFromExit = false;
+
     // Use this for initialization
     void Start()
     {
@@ -36,16 +38,6 @@ public class NPCDialogueManager : MonoBehaviour {
         }
 
 
-        if (dialogActive && Input.GetKeyDown(KeyCode.A))
-        {
-            dBox.SetActive(false);
-            dialogActive = false;
-            musicSource.Play();
-            //currentLine++;
-            thePlayer.canMove = true;
-        }
-
-
         //if (currentLine >= dialogLines.Length)
         //{
         //    dBox.SetActive(false);
@@ -57,6 +49,15 @@ public class NPCDialogueManager : MonoBehaviour {
         //dText.text = dialogLines[currentLine];
         //dSpeaker.text = speakers[currentLine];
         //Debug.Log(currentLine);
+    }
+
+    public void hideBox()
+    {
+        dBox.SetActive(false);
+        dialogActive = false;
+        musicSource.Play();
+        //currentLine++;
+        thePlayer.canMove = true;
     }
 
     public void ShowBox(string name, string line)

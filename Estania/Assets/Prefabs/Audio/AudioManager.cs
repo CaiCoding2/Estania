@@ -15,7 +15,9 @@ public class AudioManager : MonoBehaviour
     public float sfxVolumePercent  { get; private set; }
     public float musicVolumePercent { get; private set; }
 
-    AudioSource[] musicSources;
+
+    AudioSource [] musicSources;
+    //AudioSource[] musicSources;
     int activeMusicSourceIndex;
 
     SoundLibrary library;
@@ -34,15 +36,22 @@ public class AudioManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             library = GetComponent<SoundLibrary>();
-        
-            musicSources = new AudioSource[2];
+
+            /*musicSources = new AudioSource[2];
             for (int i = 0; i < 2; i++)
             {
                 GameObject newMusicSource = new GameObject("Music source "  + (i+1));
                 musicSources[i] = newMusicSource.AddComponent<AudioSource>();
                 newMusicSource.transform.parent = transform;
+            }*/
+            musicSources = new AudioSource[2];
+            for (int i = 0; i < 1; i++)
+            {
+                GameObject newMusicSource = new GameObject("Music source " + (i));
+                musicSources[i] = newMusicSource.AddComponent<AudioSource>();
+                newMusicSource.transform.parent = transform;
             }
-            
+
             masterVolumePercent = PlayerPrefs.GetFloat("master vol", 1);
             sfxVolumePercent = PlayerPrefs.GetFloat("sfx vol", 1);
             musicVolumePercent = PlayerPrefs.GetFloat("music vol", 1);
@@ -66,7 +75,7 @@ public class AudioManager : MonoBehaviour
         }
 
         musicSources[0].volume = musicVolumePercent * masterVolumePercent;
-        musicSources[1].volume = musicVolumePercent * masterVolumePercent;
+        //musicSources[1].volume = musicVolumePercent * masterVolumePercent;
         
         PlayerPrefs.SetFloat("master vol", 1);
         PlayerPrefs.SetFloat("sfx vol", 1);
@@ -76,12 +85,16 @@ public class AudioManager : MonoBehaviour
 
     public void playMusic(AudioClip clip, float fadeDuration)
     {
-        
-        activeMusicSourceIndex = 1 - activeMusicSourceIndex;        
-        musicSources[activeMusicSourceIndex].clip = clip;        
-        musicSources[activeMusicSourceIndex].Play();
 
-        StartCoroutine(AnimateMusicCrossFade(fadeDuration));
+
+        musicSources[0].clip = clip;        
+        musicSources[0].Play();
+
+        //activeMusicSourceIndex = 1 - activeMusicSourceIndex;        
+        //musicSources[activeMusicSourceIndex].clip = clip;        
+        //musicSources[activeMusicSourceIndex].Play();
+
+        //StartCoroutine(AnimateMusicCrossFade(fadeDuration));
     }
 
     public void PlaySound(AudioClip clip, Vector3 pos, float soundMultiply)

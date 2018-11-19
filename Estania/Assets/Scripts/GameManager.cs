@@ -4,16 +4,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
+	public bool battleStarted;
 	public enemyencounterspawner EES;
 	public CameraController CC;
 	public bool battleover;
 	public int counter;
-	public bool inbattle;
+	public static bool inbattle;
 	public bool boss;
 	public bool lavosdead;
 	public Scene m_Scene;
 	public string sceneName;
 	public bool instantiated;
+	public float GManHP;
+	public float GManMP;
+	
 	//CLASS RANDOM MONSTER
 	[System.Serializable]
 	public class RegionData
@@ -75,9 +79,18 @@ public class GameManager : MonoBehaviour {
 
 	void Awake() //awake called whenever a scene is called
 	{
+		
+		battleStarted = false;
+		ap = 5;
+		if (sceneName == "ExitScreen" || sceneName == "Finale")
+		{
+			EES.boss = false;
+			EES.lavosdead = false;
+			lavosdead = false;
+			curRegions = 0;
+			MariamHero = false;
+		}
 
-	
-			
 		if (spawnedAttacked) 
 		Destroy(GameObject.Find("DialogueBeast"));
 		Debug.Log("AWAKE!");
@@ -93,7 +106,7 @@ public class GameManager : MonoBehaviour {
 			MariamHero = true;
 		//change when you have to remove the town to BattleSystem
 		instantiated = false;
-		ap = 3;
+		ap = 5;
 		//check if this instance is already existing how do we react to another game manager instance
 		if (instance == null)
 		{
@@ -161,7 +174,12 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 	void Start() {
+		GManHP = 200;
+		GManMP = 100;
+		
+		battleStarted = false;
 		m_Scene = SceneManager.GetActiveScene();
+		ap = 5;
 		sceneName = m_Scene.name;
 		if (counter == 1)
 			Destroy(GameObject.Find("swordinstone"));
@@ -183,9 +201,28 @@ public class GameManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		//if ((sceneName == "FieldLavos" || sceneName == "FieldLavosSpawn") && !battleStarted)
+		//{
+		//ap = 5;
+		//	battleStarted = true;
+		//	}
+	//	if (!battleStarted)
+		//	ap = EES.ap;
+		if (sceneName == "ExitScreen")
+		{
+			counter = 0;
+			lastScene = "";
+			EES.boss = false;
+			EES.lavosdead = false;
+			lavosdead = false;
+			curRegions = 0;
+			MariamHero = false;
+			GManHP = 200;
+			GManMP = 100;
+		}
 		m_Scene = SceneManager.GetActiveScene();
 		sceneName = m_Scene.name;
-		if (!GameObject.Find("Player") && !GameObject.Find("Hero 1") && sceneName != "Finale" && sceneName != "Sleeping Hart")
+		if (!GameObject.Find("Player") && !GameObject.Find("Hero 1") && sceneName != "Finale" && sceneName != "Sleeping Hart" && sceneName != "ExitScreen" && sceneName != "Sleeping Hart" && sceneName != "Temple Cutscene" && sceneName != "Menu")
 		//	{
 		//	GameObject Hero = Instantiate(Player, nextPlayerPosition, Quaternion.identity) as GameObject;
 		//Hero.name = "Player";
@@ -240,7 +277,8 @@ public class GameManager : MonoBehaviour {
 	}void StartBattle()
 		{
 		//AMOUNT OF ENEMIES
-		enemyAmount = Random.Range(1, Regions[curRegions].maxAmountEnemies + 1);
+		//enemyAmount = Random.Range(1, Regions[curRegions].maxAmountEnemies + 1);
+		enemyAmount = Regions[curRegions].maxAmountEnemies;
 		//which enemies are we going to send into battle
 		Debug.Log(GameManager.instance.enemiesToBattle.Count);
 		for (int i = 0; i < enemyAmount ; i++)
